@@ -1,0 +1,14 @@
+#include "PortCracker.h"
+
+class Port {
+    private:
+        PortCracker cracker;
+    public:
+        Port(PortCracker cracker) {
+            this->cracker = cracker;
+        }
+
+        ~Port() {
+            delete cracker;
+        }
+};
