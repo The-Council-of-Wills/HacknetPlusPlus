@@ -1,7 +1,6 @@
 #pragma once
 #include <string>
 #include <set>
-#include "Port.hpp"
 
 class Computer {
     private:
@@ -37,7 +36,7 @@ class Computer {
             std::string res = "Scanning ended. Found " + std::to_string(computerAmount) + " computers.";
 
             if (links.empty()) {
-                return "Scanning ended. No computers were found";
+                return "Scanning ended. No computers were found\n";
             }
 
             res += separator;
