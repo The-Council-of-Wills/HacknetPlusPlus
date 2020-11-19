@@ -9,8 +9,15 @@ class File : public FileSystemElement {
             contents = fileContents;
         }
 
-        std::string showTree(const std::string &prefix) {
-            return prefix + toString();
+        std::string showTree(std::string prefix, bool last) {
+            std::string ans = prefix;
+            if (last) {
+                ans += u8"└── ";
+            }
+            else {
+                ans += u8"├── ";
+            }
+            return ans + toString();
         }
 
         bool isFolder() {

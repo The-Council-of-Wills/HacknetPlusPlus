@@ -12,7 +12,7 @@ class FileSystemElement {
     public:
         virtual ~FileSystemElement() {  }
 
-        virtual std::string showTree(const std::string &prefix) = 0;
+        virtual std::string showTree(std::string prefix, bool last) = 0;
         virtual bool isFolder() = 0;
 
         FileSystemElement* getParent() {

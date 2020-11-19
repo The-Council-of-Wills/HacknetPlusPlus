@@ -25,14 +25,7 @@ class Folder : public FileSystemElement {
         }
 
         std::string listChildren() {
-            return listChildren(0);
-        }
-
-        std::string listChildren(int depth) {
             std::string ans, offset;
-            for (int i = 0; i < depth; i++) {
-                offset += '|';
-            }
 
             for (auto c : children) {
                 ans += offset + c->toString() + '\n';
@@ -42,16 +35,45 @@ class Folder : public FileSystemElement {
         }
 
         std::string showTree() {
-            return showTree("");
+            std::string ans = ".";
+
+            for (int i = 0; i < (int)children.size(); i++) {
+                ans += '\n';
+                if (i == (int)children.size() - 1) {
+                    ans += children[i]->showTree("", true);
+                }
+                else {
+                    ans += children[i]->showTree("", false);
+                }
+            }
+
+            return ans;
         }
 
-        std::string showTree(const std::string &prefix)  {
-            std::string ans = prefix + toString();
-
-            for (auto c : children) {
-                ans += '\n';
-                ans += c->showTree(prefix + '|');
+        std::string showTree(std::string prefix, bool last) {
+            std::string ans = prefix;
+            std::string newPrefix = prefix;
+            if (last) {
+                ans += u8"└── ";
+                prefix += "    ";
             }
+            else {
+                ans += u8"├── ";
+                prefix += u8"│   ";
+            }
+
+            ans += toString();
+
+            for (int i = 0; i < (int)children.size(); i++) {
+                ans += '\n';
+                if (i == (int)children.size() - 1) {
+                    ans += children[i]->showTree(prefix, true);
+                }
+                else {
+                    ans += children[i]->showTree(prefix, false);
+                }
+            }
+
             return ans;
         }
 
