@@ -3,11 +3,14 @@
 #include <string>
 #include <iostream>
 #include "Computer.hpp"
+#include "FileSystem/FileSystemImport.hpp"
 
 class GameManager {
     private:
         Computer* playerComp;
         Computer* currentComp;
+
+        Folder* currentFolder;
 
         std::map<std::string, Computer*> computerNetwork;
 
@@ -19,6 +22,8 @@ class GameManager {
         GameManager(Computer* player) {
             playerComp = player;
             currentComp = player;
+            currentFolder = player->getFileSystem();
+
             std::string ip = player->getIP();
             computerNetwork[ip] = player;
             showConnected();
@@ -48,8 +53,13 @@ class GameManager {
             }
             else {
                 currentComp = computerNetwork[ip];
+                currentFolder = currentComp->getFileSystem();
                 showConnected();
             }
+        }
+
+        void setDirectory(FileSystemElement* dir) {
+            currentFolder = (Folder*)dir;
         }
 
         Computer* getCurrent() {
@@ -58,5 +68,9 @@ class GameManager {
 
         Computer* getPlayer() {
             return playerComp;
+        }
+
+        Folder* getDirectory() {
+            return currentFolder;
         }
 };

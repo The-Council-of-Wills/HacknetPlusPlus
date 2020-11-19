@@ -5,6 +5,7 @@
 #include <vector>
 #include "../GameManager.hpp"
 #include "CommandInclude.hpp"
+#include "ListDirectoryCommand.hpp"
 
 class CommandManager {
     private:
@@ -47,4 +48,10 @@ CommandManager::CommandManager(GameManager *g) {
     commands["whereami"] = new WhereCommand;
 
     commands["addComputer"] = new AddComputerCommand;
+
+    commands["cd"] = new ChangeDirectoryCommand;
+
+    commands["tree"] = new TreeCommand;
+
+    commands["ls"] = new ListDirectoryCommand;
 }

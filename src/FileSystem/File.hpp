@@ -12,4 +12,8 @@ class File : public FileSystemElement {
         std::string showTree(const std::string &prefix) {
             return prefix + toString();
         }
+
+        bool isFolder() {
+            return false;
+        }
 };

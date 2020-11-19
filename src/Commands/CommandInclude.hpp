@@ -5,3 +5,6 @@
 #include "ConnectCommand.hpp"
 #include "WhereCommand.hpp"
 #include "AddComputerCommand.hpp"
+#include "ChangeDirectoryCommand.hpp"
+#include "TreeCommand.hpp"
+#include "ListDirectoryCommand.hpp"

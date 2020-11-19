@@ -8,13 +8,20 @@ class Folder : public FileSystemElement {
     private:
         std::vector<FileSystemElement*> children;
     public:
-        Folder(std::string folderName) : FileSystemElement(folderName) {
-        }
+        Folder(std::string folderName) : FileSystemElement(folderName) {  }
 
         ~Folder() {
             for (auto c : children) {
                 delete c;
             }
+        }
+
+        bool isFolder() {
+            return true;
+        }
+
+        std::vector<FileSystemElement*> getChildren() {
+            return children;
         }
 
         std::string listChildren() {
@@ -50,5 +57,6 @@ class Folder : public FileSystemElement {
 
         void insertElement(FileSystemElement *elem) {
             children.push_back(elem);
+            elem->setParent(this);
         }
 };

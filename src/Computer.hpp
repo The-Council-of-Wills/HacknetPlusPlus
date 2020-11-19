@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <set>
+#include "FileSystem/FileSystemImport.hpp"
 
 class Computer {
     private:
@@ -9,10 +10,16 @@ class Computer {
         std::string name;
         std::string ip;
         std::set<Computer*> links;
+
+        Folder* root = regularFileSystem();
     public:
         Computer(std::string compName, std::string compIp) {
             name = compName;
             ip = compIp;
+        }
+
+        Folder* getFileSystem() {
+            return root;
         }
 
         bool connected(Computer *computer) {
@@ -32,8 +39,8 @@ class Computer {
         }
 
         std::string scan() {
-            int computerAmount = (int)links.size();
-            std::string res = "Scanning ended. Found " + std::to_string(computerAmount) + " computers.";
+            std::string computerAmount = std::to_string(links.size());
+            std::string res = "Scanning ended. Found " + computerAmount + " computers.";
 
             if (links.empty()) {
                 return "Scanning ended. No computers were found\n";
