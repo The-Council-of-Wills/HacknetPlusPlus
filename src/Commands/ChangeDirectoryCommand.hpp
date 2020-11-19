@@ -5,13 +5,7 @@
 class ChangeDirectoryCommand : public Command {
     public:
         void run(GameManager *game, std::vector<std::string> args) {
-            if (args.size() < 2) {
-                std::cout << "Missing arguments\n";
-            }
-            else if (args.size() > 2) {
-                std::cout << "Unexpected argument: " << args[2] << '\n';
-            }
-            else {
+            if (hasExactArguments(2, args)) {
                 std::string newDirectory = args[1];
                 if (newDirectory == ".") {
                     return;

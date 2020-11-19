@@ -4,14 +4,8 @@
 class ConnectCommand : public Command {
     public:
         void run(GameManager *game, std::vector<std::string> args) {
-            if (args.size() < 2) {
-                std::cout << "Missing arguments.\n";
-            }
-            else if (args.size() == 2){
+            if (hasExactArguments(2, args)) {
                 game->connect(args[1]);
-            }
-            else {
-                std::cout << "Unexpected arguments.\n";
             }
         }
 };
