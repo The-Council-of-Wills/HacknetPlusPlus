@@ -6,6 +6,7 @@
 #include "../GameManager.hpp"
 #include "CommandInclude.hpp"
 #include "ListDirectoryCommand.hpp"
+#include "MakeDirCommand.hpp"
 
 class CommandManager {
     private:
@@ -38,20 +39,16 @@ CommandManager::CommandManager(GameManager *g) {
     game = g;
 
     commands["scan"] = new ScanCommand;
-
-    SelfCommand *self = new SelfCommand;
-    commands["self"] = self;
-    commands["whoami"] = self;
-
+    SelfCommand *selfCommand = new SelfCommand;
+    commands["self"] = selfCommand;
+    commands["whoami"] = selfCommand;
     commands["connect"] = new ConnectCommand;
-
     commands["whereami"] = new WhereCommand;
-
     commands["addComputer"] = new AddComputerCommand;
-
     commands["cd"] = new ChangeDirectoryCommand;
-
     commands["tree"] = new TreeCommand;
-
     commands["ls"] = new ListDirectoryCommand;
+    commands["cat"] = new CatCommand;
+    commands["mkdir"] = new MakeDirCommand;
+    commands["rmdir"] = new RemoveDirCommand;
 }

@@ -23,6 +23,10 @@ class FileSystemElement {
             parent = parentElement;
         }
 
+        std::string getName() {
+            return name;
+        }
+
         std::string toString() {
             return name;
         }

@@ -1,18 +1,19 @@
 #pragma once
 #include <vector>
 #include <iostream>
+#include <map>
 #include "FileSystemElement.hpp"
 #include "File.hpp"
 
 class Folder : public FileSystemElement {
     private:
-        std::vector<FileSystemElement*> children;
+        std::map<std::string, FileSystemElement*> children;
     public:
         Folder(std::string folderName) : FileSystemElement(folderName) {  }
 
         ~Folder() {
             for (auto c : children) {
-                delete c;
+                delete c.second;
             }
         }
 
@@ -20,15 +21,25 @@ class Folder : public FileSystemElement {
             return true;
         }
 
+        FileSystemElement* getElement(std::string elementName) {
+            if (children.count(elementName))
+                return children[elementName];
+            return nullptr;
+        }
+
         std::vector<FileSystemElement*> getChildren() {
-            return children;
+            std::vector<FileSystemElement*> ans;
+            for (auto c : children) {
+                ans.push_back(c.second);
+            }
+            return ans;
         }
 
         std::string listChildren() {
-            std::string ans, offset;
+            std::string ans;
 
             for (auto c : children) {
-                ans += offset + c->toString() + '\n';
+                ans += c.second->getName() + '\n';
             }
 
             return ans;
@@ -37,13 +48,14 @@ class Folder : public FileSystemElement {
         std::string showTree() {
             std::string ans = ".";
 
-            for (int i = 0; i < (int)children.size(); i++) {
+            for (auto iter = children.begin(); iter != children.end(); iter++) {
                 ans += '\n';
-                if (i == (int)children.size() - 1) {
-                    ans += children[i]->showTree("", true);
+                FileSystemElement* elem = iter->second;
+                if (std::next(iter) == children.end()) {
+                    ans += elem->showTree("", true);
                 }
                 else {
-                    ans += children[i]->showTree("", false);
+                    ans += elem->showTree("", false);
                 }
             }
 
@@ -62,15 +74,16 @@ class Folder : public FileSystemElement {
                 prefix += u8"│   ";
             }
 
-            ans += toString();
+            ans += getName();
 
-            for (int i = 0; i < (int)children.size(); i++) {
+            for (auto iter = children.begin(); iter != children.end(); iter++) {
                 ans += '\n';
-                if (i == (int)children.size() - 1) {
-                    ans += children[i]->showTree(prefix, true);
+                FileSystemElement* elem = iter->second;
+                if (std::next(iter) == children.end()) {
+                    ans += elem->showTree(prefix, true);
                 }
                 else {
-                    ans += children[i]->showTree(prefix, false);
+                    ans += elem->showTree(prefix, false);
                 }
             }
 
@@ -78,7 +91,13 @@ class Folder : public FileSystemElement {
         }
 
         void insertElement(FileSystemElement *elem) {
-            children.push_back(elem);
+            std::string elementName = elem->getName();
+            children[elementName] = elem;
             elem->setParent(this);
+        }
+
+        void deleteElement(std::string elementName) {
+            delete children[elementName];
+            children.erase(elementName);
         }
 };

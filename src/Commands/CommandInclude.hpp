@@ -8,3 +8,6 @@
 #include "ChangeDirectoryCommand.hpp"
 #include "TreeCommand.hpp"
 #include "ListDirectoryCommand.hpp"
+#include "CatCommand.hpp"
+#include "MakeDirCommand.hpp"
+#include "RemoveDirCommand.hpp"

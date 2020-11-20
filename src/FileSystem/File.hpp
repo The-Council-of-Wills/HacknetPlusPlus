@@ -23,4 +23,8 @@ class File : public FileSystemElement {
         bool isFolder() {
             return false;
         }
+
+        std::string getContents() {
+            return contents;
+        }
 };
