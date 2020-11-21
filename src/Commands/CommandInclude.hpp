@@ -11,3 +11,5 @@
 #include "CatCommand.hpp"
 #include "MakeDirCommand.hpp"
 #include "RemoveDirCommand.hpp"
+#include "TouchCommand.hpp"
+#include "AppendCommand.hpp"

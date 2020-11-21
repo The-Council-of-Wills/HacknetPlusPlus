@@ -39,7 +39,7 @@ class Folder : public FileSystemElement {
             std::string ans;
 
             for (auto c : children) {
-                ans += c.second->getName() + '\n';
+                ans += '/' + c.second->getName() + '\n';
             }
 
             return ans;

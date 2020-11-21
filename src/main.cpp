@@ -27,9 +27,32 @@ int main() {
         }
 
         std::vector<std::string> args;
-        while (getline(userInputStream, userInput, ' ')) {
-            args.push_back(userInput);
+        std::string buffer;
+        char current;
+        bool quote = false;
+        while(userInputStream.get(current)) {
+            if (current == '"') {
+                if (quote) {
+                    args.push_back(buffer);
+                    buffer = "";
+                }
+                quote = !quote;
+            }
+            else if (quote) {
+                buffer += current;
+            }
+            else if (current == ' ') {
+                if (buffer != "") {
+                    args.push_back(buffer);
+                    buffer = "";
+                }
+            }
+            else {
+                buffer += current;
+            }
         }
+
+        if (buffer != "") args.push_back(buffer);
 
         commands->processCommand(args);
     }
