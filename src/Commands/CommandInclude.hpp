@@ -14,3 +14,4 @@
 #include "TouchCommand.hpp"
 #include "AppendCommand.hpp"
 #include "ProbeCommand.hpp"
+#include "HelpCommand.hpp"

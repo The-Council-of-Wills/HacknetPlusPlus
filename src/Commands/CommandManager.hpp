@@ -53,4 +53,5 @@ CommandManager::CommandManager(GameManager *g) {
     commands["touch"]       = new TouchCommand;
     commands["append"]      = new AppendCommand;
     commands["probe"]       = new ProbeCommand;
+    commands["help"]        = new HelpCommand;
 }

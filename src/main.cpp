@@ -9,6 +9,7 @@
 
 int main() {
     std::cout << "Hacknet++ baybeee" << '\n';
+    std::cout << "Enter help for a list of commands" << '\n';
 
     Computer* playerComp = new Computer("Tarche's battlestation", "123.123.123.123", 4);
 
