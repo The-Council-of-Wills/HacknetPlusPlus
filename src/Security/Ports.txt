@@ -1,0 +1,22 @@
+21 File Transfer Protocol
+22 Secure Shell
+23 Telnet
+25 Simple Mail Transfer Protocol
+80 Hypertext Transfer Protocol
+161 Simple Network Management Protocol
+194 Internet Relay Chat
+443 Hypertext Transfer Protocol Secure
+554 Real Time Streaming Protocol
+666 Doom Deathmatching
+711 Cisco Dedicated Port
+1194 Open VPN
+1433 Microsoft SQL Server
+2375 Docker Container Communication Port
+2876 Transreceiv Transfer Port
+3724 Blizzard Dedicated
+6443 Nextcloud Filedrop Protocol
+6463 Discord Chat
+6881 BitTorrent
+8448 Matrix Chat Protocol
+9150 TOR Routing Port
+9418 Git Version Control

@@ -13,3 +13,4 @@
 #include "RemoveDirCommand.hpp"
 #include "TouchCommand.hpp"
 #include "AppendCommand.hpp"
+#include "ProbeCommand.hpp"

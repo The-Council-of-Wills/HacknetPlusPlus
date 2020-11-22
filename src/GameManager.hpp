@@ -35,8 +35,8 @@ class GameManager {
             }
         }
 
-        void addComputer(std::string name, std::string ip) {
-            Computer* newComp = new Computer(name, ip);
+        void addComputer(std::string name, std::string ip, int securityLevel) {
+            Computer* newComp = new Computer(name, ip, securityLevel);
             computerNetwork[ip] = newComp;
             currentComp->addLink(newComp);
         }

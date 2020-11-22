@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <set>
+#include "Security/SecuritySuite.hpp"
 #include "FileSystem/FileSystemImport.hpp"
 
 class Computer {
@@ -12,14 +13,25 @@ class Computer {
         std::set<Computer*> links;
 
         Folder* root = regularFileSystem();
+        SecuritySuite* security;
     public:
-        Computer(std::string compName, std::string compIp) {
+        Computer(std::string compName, std::string compIp, int securityLevel) {
             name = compName;
             ip = compIp;
+            security = new SecuritySuite(securityLevel);
+        }
+
+        ~Computer() {
+            delete root;
+            delete security;
         }
 
         Folder* getFileSystem() {
             return root;
+        }
+
+        SecuritySuite* getSecurity() {
+            return security;
         }
 
         bool connected(Computer *computer) {

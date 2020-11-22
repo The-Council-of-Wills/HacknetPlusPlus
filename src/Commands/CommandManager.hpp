@@ -52,4 +52,5 @@ CommandManager::CommandManager(GameManager *g) {
     commands["rmdir"]       = new RemoveDirCommand;
     commands["touch"]       = new TouchCommand;
     commands["append"]      = new AppendCommand;
+    commands["probe"]       = new ProbeCommand;
 }
