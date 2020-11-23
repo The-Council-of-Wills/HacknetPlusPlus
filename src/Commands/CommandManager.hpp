@@ -5,8 +5,6 @@
 #include <vector>
 #include "../GameManager.hpp"
 #include "CommandInclude.hpp"
-#include "ListDirectoryCommand.hpp"
-#include "MakeDirCommand.hpp"
 
 class CommandManager {
     private:
@@ -54,4 +52,6 @@ CommandManager::CommandManager(GameManager *g) {
     commands["append"]      = new AppendCommand;
     commands["probe"]       = new ProbeCommand;
     commands["help"]        = new HelpCommand;
+    commands["notes"]       = new NotesCommand;
+    commands["addNote"]     = new AddNoteCommand;
 }

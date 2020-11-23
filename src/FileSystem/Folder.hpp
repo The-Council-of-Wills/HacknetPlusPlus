@@ -27,6 +27,21 @@ class Folder : public FileSystemElement {
             return nullptr;
         }
 
+        Folder* getOrCreateFolder(std::string elementName) {
+            Folder* temp = (Folder*)getElement(elementName);
+            if (temp != nullptr) return temp;
+            temp = new Folder(elementName);
+            insertElement(temp);
+            return temp;
+        }
+
+        File* getOrCreateFile(std::string elementName) {
+            File* temp = (File*)getElement(elementName);
+            if (temp != nullptr) return temp;
+            temp = new File(elementName);
+            insertElement(temp);
+            return temp;
+        }
         std::vector<FileSystemElement*> getChildren() {
             std::vector<FileSystemElement*> ans;
             for (auto c : children) {

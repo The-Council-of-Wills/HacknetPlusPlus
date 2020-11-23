@@ -34,3 +34,6 @@ probe: shows a list of the open ports of the connected computer
 
 Misc:
 help: shows this helpful help page
+notes: shows the note file from your home directory, wherever you are.
+addNote: appends text to the note file, no matter where you are.
+addNote S
