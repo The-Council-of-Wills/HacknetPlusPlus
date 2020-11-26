@@ -7,7 +7,7 @@ class HelpCommand : public Command {
         void run(GameManager *game, std::vector<std::string> args) {
             if (!hasExactArguments(1, args)) return;
             std::string buf;
-            std::ifstream in("Commands/help.txt");
+            std::ifstream in("assets/help");
             while (getline(in, buf)) {
                 std::cout << buf << '\n';
             }
