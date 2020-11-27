@@ -8,17 +8,7 @@
 #include "Computer.hpp"
 
 int main() {
-    std::string buffer;
-    std::ifstream bannerStream("assets/banner");
-
-    while (getline(bannerStream, buffer)) {
-        std::cout << buffer << '\n';
-    }
-
-    bannerStream.close();
-
-    std::cout << "\n\n\n\n";
-    
+    std::cout << "Hacknet++ baybeee" << '\n';
     std::cout << "Enter help for a list of commands" << '\n';
 
     Computer* playerComp = new Computer("Tarche's battlestation", "123.123.123.123", 4);
@@ -38,7 +28,7 @@ int main() {
         }
 
         std::vector<std::string> args;
-
+        std::string buffer;
         char current;
         bool quote = false;
         while(userInputStream.get(current)) {
