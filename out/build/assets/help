@@ -1,0 +1,39 @@
+Hacknet++ OS quick help reference:
+Command reference:
+IP: an IP
+S: a string
+D: a directory
+F: a file
+D/F: directory or file
+
+File System manipulation:
+mkdir: makes a directory with the given name
+mkdir D
+rmdir: removes a directory if it is not empty
+rmdir D
+touch: creates an empty file with the given name
+touch F
+tree: shows a file tree starting from the current directory
+ls: lists all directories and files in the current directory
+cd: changes to the specified directory
+cd D
+cat: reads the contents of the given file
+cat F
+append: appends the given string to the given file. If there is more than one word, enclose the entire string in double quotes ("")
+append F S
+
+Networking:
+scan: shows computers linked to the current computer
+connect: connects to the given IP
+connect IP
+self/whoami: shows your own computer
+whereami: shows the computer you are currently connected to
+
+Security:
+probe: shows a list of the open ports of the connected computer
+
+Misc:
+help: shows this helpful help page
+notes: shows the note file from your home directory, wherever you are.
+addNote: appends text to the note file, no matter where you are.
+addNote S

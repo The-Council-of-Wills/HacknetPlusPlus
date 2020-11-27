@@ -1,0 +1,248 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
+  "runs": [
+    {
+      "results": [],
+      "tool": {
+        "driver": {
+          "name": "PREfast",
+          "fullName": "PREfast Code Analysis",
+          "version": "14.28.29334.0"
+        }
+      },
+      "invocations": [
+        {
+          "commandLine": "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.28.29333\\bin\\Hostx64\\x64\\c1xx.dll\" -ACf{1F7B090C-16DB-4822-966A-A93D26ED4681} -ACpmspft140.dll -Alint -D_PREFAST_ -D_AST_FE_ -Analyze -zm0x00007FF62949CC90 -il C:\\Users\\lucas\\AppData\\Local\\Temp\\_CL_1c034650ast -typedil -f C:\\Users\\lucas\\source\\repos\\HacknetPlusPlus\\src\\main.cpp -W 1 -Ze -D_MSC_EXTENSIONS -Zp16 -Fomain.obj -pc \\:/ -Fdvc140.pdb -D_MSC_VER=1928 -D_MSC_FULL_VER=192829334 -D_MSC_BUILD=0 -D_M_AMD64=100 -ZILP448 -D_M_X64=100 -D_WIN64 -D_WIN32 -GS -Zc:forScope -Zc:wchar_t -DWIN32 -D_WINDOWS -GR -D_CPPRTTI -EHs -D_CPPUNWIND -EHc -Ot -D__MSVC_RUNTIME_CHECKS -RTCs -RTCu -MDd -D_DEBUG -D_MT -D_DLL -analyze:projectdirectory C:\\Users\\lucas\\source\\repos\\HacknetPlusPlus -analyze:rulesetdirectory C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\Team Tools\\Static Analysis Tools\\Rule Sets -analyze:ruleset C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\Team Tools\\Static Analysis Tools\\Rule Sets\\NativeRecommendedRules.ruleset -errorreport:none -analyze:log C:\\Users\\lucas\\source\\repos\\HacknetPlusPlus\\out\\build\\x64-Debug (predeterminado)\\CodeAnalysis\\results.sarif -DCODE_ANALYSIS -analyze:plugin C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.28.29333\\bin\\Hostx64\\x64\\EspXEngine.dll -I C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.28.29333\\ATLMFC\\include -I C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.28.29333\\include -I C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.18362.0\\ucrt -I C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.18362.0\\shared -I C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.18362.0\\um -I C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.18362.0\\winrt -I C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.18362.0\\cppwinrt",
+          "executionSuccessful": true
+        }
+      ],
+      "artifacts": [
+        {
+          "location": {
+            "uri": "file:///c:/users/lucas/source/repos/hacknetplusplus/src/main.cpp"
+          },
+          "roles": [
+            "analysisTarget"
+          ]
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/lucas/source/repos/hacknetplusplus/src/gamemanager.hpp"
+          },
+          "roles": [
+            "responseFile"
+          ]
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/lucas/source/repos/hacknetplusplus/src/computer.hpp"
+          },
+          "roles": [
+            "responseFile"
+          ]
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/lucas/source/repos/hacknetplusplus/src/security/securitysuite.hpp"
+          },
+          "roles": [
+            "responseFile"
+          ]
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/lucas/source/repos/hacknetplusplus/src/filesystem/filesystemimport.hpp"
+          },
+          "roles": [
+            "responseFile"
+          ]
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/lucas/source/repos/hacknetplusplus/src/filesystem/folder.hpp"
+          },
+          "roles": [
+            "responseFile"
+          ]
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/lucas/source/repos/hacknetplusplus/src/filesystem/filesystemelement.hpp"
+          },
+          "roles": [
+            "responseFile"
+          ]
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/lucas/source/repos/hacknetplusplus/src/filesystem/file.hpp"
+          },
+          "roles": [
+            "responseFile"
+          ]
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/lucas/source/repos/hacknetplusplus/src/commands/commandmanager.hpp"
+          },
+          "roles": [
+            "responseFile"
+          ]
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/lucas/source/repos/hacknetplusplus/src/commands/commandinclude.hpp"
+          },
+          "roles": [
+            "responseFile"
+          ]
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/lucas/source/repos/hacknetplusplus/src/commands/command.hpp"
+          },
+          "roles": [
+            "responseFile"
+          ]
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/lucas/source/repos/hacknetplusplus/src/commands/scancommand.hpp"
+          },
+          "roles": [
+            "responseFile"
+          ]
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/lucas/source/repos/hacknetplusplus/src/commands/selfcommand.hpp"
+          },
+          "roles": [
+            "responseFile"
+          ]
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/lucas/source/repos/hacknetplusplus/src/commands/connectcommand.hpp"
+          },
+          "roles": [
+            "responseFile"
+          ]
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/lucas/source/repos/hacknetplusplus/src/commands/wherecommand.hpp"
+          },
+          "roles": [
+            "responseFile"
+          ]
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/lucas/source/repos/hacknetplusplus/src/commands/addcomputercommand.hpp"
+          },
+          "roles": [
+            "responseFile"
+          ]
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/lucas/source/repos/hacknetplusplus/src/commands/changedirectorycommand.hpp"
+          },
+          "roles": [
+            "responseFile"
+          ]
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/lucas/source/repos/hacknetplusplus/src/commands/treecommand.hpp"
+          },
+          "roles": [
+            "responseFile"
+          ]
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/lucas/source/repos/hacknetplusplus/src/commands/listdirectorycommand.hpp"
+          },
+          "roles": [
+            "responseFile"
+          ]
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/lucas/source/repos/hacknetplusplus/src/commands/catcommand.hpp"
+          },
+          "roles": [
+            "responseFile"
+          ]
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/lucas/source/repos/hacknetplusplus/src/commands/makedircommand.hpp"
+          },
+          "roles": [
+            "responseFile"
+          ]
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/lucas/source/repos/hacknetplusplus/src/commands/removedircommand.hpp"
+          },
+          "roles": [
+            "responseFile"
+          ]
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/lucas/source/repos/hacknetplusplus/src/commands/touchcommand.hpp"
+          },
+          "roles": [
+            "responseFile"
+          ]
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/lucas/source/repos/hacknetplusplus/src/commands/appendcommand.hpp"
+          },
+          "roles": [
+            "responseFile"
+          ]
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/lucas/source/repos/hacknetplusplus/src/commands/probecommand.hpp"
+          },
+          "roles": [
+            "responseFile"
+          ]
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/lucas/source/repos/hacknetplusplus/src/commands/helpcommand.hpp"
+          },
+          "roles": [
+            "responseFile"
+          ]
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/lucas/source/repos/hacknetplusplus/src/commands/notescommand.hpp"
+          },
+          "roles": [
+            "responseFile"
+          ]
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/lucas/source/repos/hacknetplusplus/src/commands/addnotecommand.hpp"
+          },
+          "roles": [
+            "responseFile"
+          ]
+        }
+      ]
+    }
+  ]
+}
