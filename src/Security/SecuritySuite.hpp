@@ -2,11 +2,11 @@
 #include <string>
 #include <map>
 
-typedef struct {
+struct Port {
     int number;
     bool isOpen;
     std::string name;
-} Port;
+};
 
 class SecuritySuite {
     private:
