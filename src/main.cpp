@@ -15,6 +15,8 @@ int main() {
         std::cout << buffer << '\n';
     }
 
+    bannerStream.close();
+
     std::cout << "\n\n\n\n";
 
     std::cout << "Enter help for a list of commands" << '\n';
@@ -39,6 +41,7 @@ int main() {
         
         char current;
         bool quote = false;
+        buffer = "";
         while(userInputStream.get(current)) {
             if (current == '"') {
                 if (quote) {
