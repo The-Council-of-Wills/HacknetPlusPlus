@@ -17,3 +17,4 @@
 #include "HelpCommand.hpp"
 #include "NotesCommand.hpp"
 #include "AddNoteCommand.hpp"
+#include "RemoveCommand.hpp"

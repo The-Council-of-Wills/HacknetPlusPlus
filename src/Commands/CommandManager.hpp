@@ -54,4 +54,5 @@ CommandManager::CommandManager(GameManager *g) {
     commands["help"]        = new HelpCommand;
     commands["notes"]       = new NotesCommand;
     commands["addNote"]     = new AddNoteCommand;
+    commands["rm"]          = new RemoveCommand;
 }
