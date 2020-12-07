@@ -6,12 +6,15 @@ class HelpCommand : public Command {
     public:
         void run(std::vector<std::string> args) {
             if (!hasExactArguments(1, args)) return;
-            GameManager *game = GameManager::getInstance();
-            std::string buf;
+            
             std::ifstream in("assets/help");
-            while (getline(in, buf)) {
+            if (!in.is_open()) {
+                std::cerr << "Error opening help file.\n";
+                return;
+            }
+
+            for (std::string buf; getline(in, buf);) {
                 std::cout << buf << '\n';
             }
-            in.close();
         }
 };

@@ -5,9 +5,10 @@ class CatCommand : public Command {
     public:
         void run(std::vector<std::string> args) {
             if (!hasExactArguments(2, args)) return;
-            GameManager *game = GameManager::getInstance();
+
             std::string filename = args[1];
-            FileSystemElement* elem = evaluatePath(game->getDirectory(), filename);
+            Folder* dir = GameManager::getInstance()->getDirectory();
+            FileSystemElement* elem = evaluatePath(dir, filename);
 
             if (elem != nullptr && !elem->isFolder()) {
                 File* file = (File *)elem;

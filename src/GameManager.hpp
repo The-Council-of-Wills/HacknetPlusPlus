@@ -84,4 +84,8 @@ class GameManager {
         Folder* getDirectory() {
             return currentFolder;
         }
+
+        Folder* getPlayerDir() {
+            return playerComp->getFileSystem();
+        }
 };
