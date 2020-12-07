@@ -4,8 +4,9 @@
 
 class ChangeDirectoryCommand : public Command {
     public:
-        void run(GameManager *game, std::vector<std::string> args) {
+        void run(std::vector<std::string> args) {
             if (!hasExactArguments(2, args)) return;
+            GameManager *game = GameManager::getInstance();
             std::string newDirectory = args[1];
             FileSystemElement *gameDir = game->getDirectory();
             FileSystemElement *elem = evaluatePath(gameDir, newDirectory);

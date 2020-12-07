@@ -7,6 +7,20 @@
 
 class GameManager {
     private:
+        static GameManager* instance;
+
+        GameManager(Computer* player) {
+            playerComp = player;
+            currentComp = player;
+            currentFolder = player->getFileSystem();
+
+            std::string ip = player->getIP();
+            computerNetwork[ip] = player;
+            showConnected();
+
+            instance = this;
+        }
+
         Computer* playerComp;
         Computer* currentComp;
 
@@ -19,14 +33,11 @@ class GameManager {
         }
 
     public:
-        GameManager(Computer* player) {
-            playerComp = player;
-            currentComp = player;
-            currentFolder = player->getFileSystem();
-
-            std::string ip = player->getIP();
-            computerNetwork[ip] = player;
-            showConnected();
+        static GameManager* getInstance() {
+            if (instance == nullptr) {
+                GameManager(new Computer("Tarche's battlestation", "123.123.123.123", 4));
+            }
+            return instance;
         }
 
         ~GameManager() {

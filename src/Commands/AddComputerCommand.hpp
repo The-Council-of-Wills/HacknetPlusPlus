@@ -4,8 +4,9 @@
 
 class AddComputerCommand : public Command {
     public:
-        void run(GameManager *game, std::vector<std::string> args) {
+        void run(std::vector<std::string> args) {
             if (!hasExactArguments(4, args)) return;
+            GameManager *game = GameManager::getInstance();
             game->addComputer(args[1], args[2], std::stoi(args[3]));
         }
 };

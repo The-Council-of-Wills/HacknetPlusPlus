@@ -3,8 +3,9 @@
 
 class RemoveCommand : public Command {
     public:
-        void run(GameManager *game, std::vector<std::string> args) {
+        void run(std::vector<std::string> args) {
             if (!hasExactArguments(2, args)) return;
+            GameManager *game = GameManager::getInstance();
             Folder* directory = game->getDirectory();
             FileSystemElement* elem = evaluatePath(directory, args[1]);
             if (elem != nullptr && !elem->isFolder()) {

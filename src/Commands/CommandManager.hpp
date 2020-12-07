@@ -11,7 +11,7 @@ class CommandManager {
         GameManager* game;
         std::map<std::string, Command*> commands;
     public:
-        CommandManager(GameManager *g);
+        CommandManager();
 
         ~CommandManager() {
             for (auto c : commands) {
@@ -25,7 +25,7 @@ class CommandManager {
 
         void processCommand(std::vector<std::string> args) {
             if (commands.count(args[0])) {
-                commands[args[0]]->run(game, args);
+                commands[args[0]]->run(args);
             }
             else {
                 std::cout << "Unknown command." << '\n';
@@ -33,9 +33,7 @@ class CommandManager {
         }
 };
 
-CommandManager::CommandManager(GameManager *g) {
-    game = g;
-
+CommandManager::CommandManager() {
     commands["scan"]        = new ScanCommand;
     commands["self"]        = new SelfCommand;
     commands["whoami"]      = new SelfCommand;

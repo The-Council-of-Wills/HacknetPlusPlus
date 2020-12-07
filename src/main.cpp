@@ -14,10 +14,8 @@ int main() {
     showBanner();
     std::cout << "Enter help for a list of commands" << '\n';
 
-    Computer* playerComp = new Computer("Tarche's battlestation", "123.123.123.123", 4);
-
-    GameManager* game = new GameManager(playerComp);
-    CommandManager* commands = new CommandManager(game);
+    GameManager* game = GameManager::getInstance();
+    CommandManager* commands = new CommandManager();
 
     while (true) {
         std::cout << '>';

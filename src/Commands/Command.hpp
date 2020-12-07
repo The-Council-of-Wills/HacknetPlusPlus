@@ -18,5 +18,5 @@ class Command {
     public:
         virtual ~Command() {  };
 
-        virtual void run(GameManager* game, std::vector<std::string> args) = 0;
+        virtual void run(std::vector<std::string> args) = 0;
 };
