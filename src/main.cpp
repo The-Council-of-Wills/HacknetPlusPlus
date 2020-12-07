@@ -7,18 +7,11 @@
 #include "FileSystem/FileSystemImport.hpp"
 #include "Computer.hpp"
 
+void showBanner();
+void parseArgs(std::string userInput, std::vector<std::string> &out);
+
 int main() {
-    std::string buffer;
-    std::ifstream bannerStream("assets/banner");
-
-    while (getline(bannerStream, buffer)) {
-        std::cout << buffer << '\n';
-    }
-
-    bannerStream.close();
-
-    std::cout << "\n\n\n\n";
-
+    showBanner();
     std::cout << "Enter help for a list of commands" << '\n';
 
     Computer* playerComp = new Computer("Tarche's battlestation", "123.123.123.123", 4);
@@ -31,41 +24,57 @@ int main() {
         std::string userInput;
         getline(std::cin, userInput);
 
-        std::stringstream userInputStream(userInput);
-
         if (userInput == "exit") {
+            std::cout << "Exiting Hacknet++...\n";
             return 0;
         }
 
         std::vector<std::string> args;
+        parseArgs(userInput, args);
         
-        char current;
-        bool quote = false;
-        buffer = "";
-        while(userInputStream.get(current)) {
-            if (current == '"') {
-                if (quote) {
-                    args.push_back(buffer);
-                    buffer = "";
-                }
-                quote = !quote;
-            }
-            else if (quote) {
-                buffer += current;
-            }
-            else if (current == ' ') {
-                if (buffer != "") {
-                    args.push_back(buffer);
-                    buffer = "";
-                }
-            }
-            else {
-                buffer += current;
-            }
-        }
-
-        if (buffer != "") args.push_back(buffer);
-
         commands->processCommand(args);
     }
+}
+
+void showBanner() {
+    std::string buffer;
+    std::ifstream bannerStream("assets/banner");
+
+    while (getline(bannerStream, buffer)) {
+        std::cout << buffer << '\n';
+    }
+
+    bannerStream.close();
+
+    std::cout << "\n\n\n\n";
+}
+
+void parseArgs(std::string userInput, std::vector<std::string> &out) {
+    std::stringstream userInputStream(userInput);
+    char current;
+    bool quote = false;
+    std::string buffer;
+    while(userInputStream.get(current)) {
+        if (current == '"') {
+            if (quote) {
+                out.push_back(buffer);
+                buffer = "";
+            }
+            quote = !quote;
+        }
+        else if (quote) {
+            buffer += current;
+        }
+        else if (current == ' ') {
+            if (buffer != "") {
+                out.push_back(buffer);
+                buffer = "";
+            }
+        }
+        else {
+            buffer += current;
+        }
+    }
+
+    if (buffer != "") out.push_back(buffer);
 }
