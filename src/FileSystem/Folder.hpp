@@ -42,6 +42,7 @@ class Folder : public FileSystemElement {
             insertElement(temp);
             return temp;
         }
+        
         std::vector<FileSystemElement*> getChildren() {
             std::vector<FileSystemElement*> ans;
             for (auto c : children) {

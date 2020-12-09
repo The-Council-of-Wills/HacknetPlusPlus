@@ -13,7 +13,7 @@ class Computer {
         std::string ip;
         std::set<Computer*> links;
 
-        Folder* root = regularFileSystem();
+        Folder* root = new Folder("/");
         SecuritySuite* security;
     public:
         Computer(std::string name, std::string id, std::string ip, int securityLevel) : 

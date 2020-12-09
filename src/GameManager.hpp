@@ -24,7 +24,6 @@ class GameManager {
 
             std::string ip = player->getIP();
             computerNetwork[ip] = player;
-            showConnected();
         }
 
         void setPlayer(Computer* player) {
@@ -40,7 +39,9 @@ class GameManager {
 
         std::map<std::string, Computer*> computerIDs;
         std::map<std::string, Computer*> computerNetwork;
-
+    protected:
+        void buildNode(const json &data, const std::string &playerID);
+        void buildFileSystem(const json &data, Folder *f);
     public:
         static GameManager* getInstance() {
             if (instance == nullptr) {
@@ -133,31 +134,54 @@ void GameManager::loadExtension(std::string path) {
         json curr;
         std::ifstream currFile(nodeFile.path());
         currFile >> curr;
-
-        std::string id = curr["id"];
-
-        Computer* currComp = new Computer(
-            curr["name"],
-            id,
-            curr["ip"],
-            curr["security"]["required"]
-        );
-
-        g->computerIDs[id] = currComp;
-        g->computerNetwork[curr["ip"]] = currComp;
-
-        if (id == playerID) {
-            g->setPlayer(currComp);
-        }
-
+        currFile.close();
+        
+        g->buildNode(curr, playerID);
+        
         for (auto link : curr["dlinks"]) {
-            dlinks[id].push_back(link);
+            dlinks[curr["id"]].push_back(link);
         }
     }
 
     for (auto i : dlinks) {
         for (auto j : i.second) {
             g->addLink(g->computerIDs[i.first], g->computerIDs[j]);
+        }
+    }
+}
+
+void GameManager::buildNode(const json &data, const std::string &playerID) {
+    std::string id = data["id"];
+
+    Computer* currComp = new Computer(
+        data["name"],
+        id,
+        data["ip"],
+        data["security"]["required"]
+    );
+
+    GameManager *g = GameManager::getInstance();
+    g->computerIDs[id] = currComp;
+    g->computerNetwork[data["ip"]] = currComp;
+
+    if (id == playerID) {
+        g->setPlayer(currComp);
+    }
+
+    buildFileSystem(data["filesystem"], currComp->getFileSystem());
+}
+
+void GameManager::buildFileSystem(const json &data, Folder *f) {
+    for (auto &elem : data.items()) {
+        if (elem.key()[0] == '/') {
+            Folder* folder = new Folder(elem.key().substr(1));
+            GameManager::getInstance()->buildFileSystem(elem.value(), folder);
+            f->insertElement(folder);
+        }
+        else {
+            std::string content = elem.value()["content"];
+            File* file = new File(elem.key(), content);
+            f->insertElement(file);
         }
     }
 }

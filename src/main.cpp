@@ -61,7 +61,7 @@ void showBanner() {
 
     bannerStream.close();
 
-    std::cout << "\n\n\n\n";
+    std::cout << "\n\n";
 }
 
 void parseArgs(std::string userInput, std::vector<std::string> &out) {

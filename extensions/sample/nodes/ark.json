@@ -8,5 +8,22 @@
 
     "security": {
         "required": 99
+    },
+
+    "filesystem": {
+        "/home": {
+
+        },
+        "/log": {
+
+        },
+        "/bin": {
+
+        },
+        "/sys": {
+            "x-server.sys": {
+                "content": "7297991071101011166610811710149"
+            }
+        }
     }
 }

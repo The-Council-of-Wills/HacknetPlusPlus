@@ -8,5 +8,26 @@
 
     "security": {
         "required": 4
+    },
+
+    "filesystem": {
+        "/home": {
+            "/notes": {
+                "notes.txt": {
+                    "content": ""
+                }
+            }
+        },
+        "/log": {
+
+        },
+        "/bin": {
+
+        },
+        "/sys": {
+            "x-server.sys": {
+                "content": "7297991071101011166610811710149"
+            }
+        }
     }
 }
