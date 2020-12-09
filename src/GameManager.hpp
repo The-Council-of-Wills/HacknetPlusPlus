@@ -17,8 +17,6 @@ class GameManager {
             std::string ip = player->getIP();
             computerNetwork[ip] = player;
             showConnected();
-
-            instance = this;
         }
 
         Computer* playerComp;
@@ -35,7 +33,7 @@ class GameManager {
     public:
         static GameManager* getInstance() {
             if (instance == nullptr) {
-                GameManager(new Computer("Tarche's battlestation", "123.123.123.123", 4));
+                instance = new GameManager(new Computer("Tarche's battlestation", "123.123.123.123", 4));
             }
             return instance;
         }
@@ -89,3 +87,5 @@ class GameManager {
             return playerComp->getFileSystem();
         }
 };
+
+GameManager* GameManager::instance= nullptr;
