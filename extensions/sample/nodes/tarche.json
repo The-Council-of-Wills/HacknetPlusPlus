@@ -1,0 +1,12 @@
+{
+    "name": "Tarche's Battlestation",
+
+    "id": "tarche",
+    "ip": "123.123.123.123",
+
+    "dlinks": ["ark"],
+
+    "security": {
+        "required": 4
+    }
+}

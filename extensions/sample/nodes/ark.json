@@ -1,0 +1,12 @@
+{
+    "name": "Ark's development machine",
+
+    "id": "ark",
+    "ip": "255.255.255.255",
+
+    "dlinks": [],
+
+    "security": {
+        "required": 99
+    }
+}

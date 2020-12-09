@@ -1,0 +1,9 @@
+{
+    "name": "Hacknet++ introduction",
+    "game": "hacknet++",
+
+    "nodeFolder": "nodes",
+    "missionFolder": "missions",
+
+    "playerComp": "tarche"
+}

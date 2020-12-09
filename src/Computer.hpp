@@ -9,15 +9,16 @@ class Computer {
         const std::string separator = "\n-----------------\n";
 
         std::string name;
+        std::string id;
         std::string ip;
         std::set<Computer*> links;
 
         Folder* root = regularFileSystem();
         SecuritySuite* security;
     public:
-        Computer(std::string compName, std::string compIp, int securityLevel) {
-            name = compName;
-            ip = compIp;
+        Computer(std::string name, std::string id, std::string ip, int securityLevel) : 
+            name{name}, id{id}, ip{ip}
+        {
             security = new SecuritySuite(securityLevel);
         }
 

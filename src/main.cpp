@@ -10,12 +10,27 @@
 void showBanner();
 void parseArgs(std::string userInput, std::vector<std::string> &out);
 
-int main() {
+int main(int argc, char *argv[]) {
+    if (argc == 1) {
+        std::cerr << "Debug mode enabled" << '\n';
+        std::cerr << "No extension will be loaded." << '\n';
+    }
+    else if (argc == 2) {
+        std::string extensionFolder(argv[1]);
+        GameManager::loadExtension(extensionFolder);
+    }
+    else {
+        std::cerr << "Error: unexpected arguments found. Please try again." << '\n';
+        return 1;
+    }
+
     showBanner();
     std::cout << "Enter help for a list of commands" << '\n';
 
     GameManager* game = GameManager::getInstance();
     CommandManager* commands = new CommandManager();
+
+    game->showConnected();
 
     while (true) {
         std::cout << '>';
@@ -37,6 +52,8 @@ int main() {
 void showBanner() {
     std::string buffer;
     std::ifstream bannerStream("assets/banner");
+
+    if (!bannerStream.is_open()) return;
 
     while (getline(bannerStream, buffer)) {
         std::cout << buffer << '\n';
