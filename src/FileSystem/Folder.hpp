@@ -17,8 +17,8 @@ class Folder : public FileSystemElement {
             }
         }
 
-        bool isFolder() {
-            return true;
+        FileSystemType getType() {
+            return FileSystemType::Folder;
         }
 
         FileSystemElement* getElement(std::string elementName) {
@@ -55,7 +55,7 @@ class Folder : public FileSystemElement {
             std::string ans;
 
             for (auto c : children) {
-                if (c.second->isFolder()) {
+                if (c.second->getType() == FileSystemType::Folder) {
                     ans += '/' + c.second->getName() + '\n';
                 }
                 else ans += c.second->getName() + '\n';

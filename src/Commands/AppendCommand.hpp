@@ -10,12 +10,18 @@ class AppendCommand : public Command {
             Folder* dir = GameManager::getInstance()->getDirectory();
             FileSystemElement* elem = evaluatePath(dir, filename);
             
-            if (elem != nullptr && !elem->isFolder()) {
+            if (elem == nullptr) {
+                std::cout << "File not found. Please try again.\n";
+            }
+            else if (elem->getType() == FileSystemType::File) {
                 File* file = (File *)elem;
                 file->append(contents);
-                return;
             }
-
-            std::cout << "File not found. Please try again.\n";
+            else if (elem->getType() == FileSystemType::Executable) {
+                std::cout << "Error: can't append to a binary file.\n";
+            }
+            else {
+                std::cout << "Error: can't append to a folder.\n";
+            }
         }
 };

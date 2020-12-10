@@ -9,12 +9,15 @@ class RemoveCommand : public Command {
             Folder* directory = GameManager::getInstance()->getDirectory();
             FileSystemElement* elem = evaluatePath(directory, args[1]);
             
-            if (elem != nullptr && !elem->isFolder()) {
+            if (elem == nullptr) {
+                std::cout << "Error: file does not exist.\n";
+            }
+            else if (elem->getType() != FileSystemType::Folder) {
                 Folder* folder = (Folder *)elem->getParent();
                 folder->deleteElement(elem->getName());
             }
             else {
-                std::cout << "Failed to delete file.\n";
+                std::cout << "Error: is not a file.\n";
             }
         }
 };

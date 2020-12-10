@@ -2,6 +2,7 @@
 #include <sstream>
 #include "Folder.hpp"
 #include "File.hpp"
+#include "Executable.hpp"
 
 FileSystemElement* evaluatePath(FileSystemElement* curr, std::string path) {
     if (path[0] == '/') {
@@ -15,7 +16,7 @@ FileSystemElement* evaluatePath(FileSystemElement* curr, std::string path) {
     while (getline(pathStream, buffer, '/')) {
         if (buffer.empty() || buffer == ".") continue;
         if (curr == nullptr) return nullptr;
-        if (curr->isFolder()) {
+        if (curr->getType() == FileSystemType::Folder) {
             if (buffer == "..") {
                 curr = curr->getParent();
             }

@@ -11,7 +11,7 @@ class ChangeDirectoryCommand : public Command {
             FileSystemElement *dir = GameManager::getInstance()->getDirectory();
             FileSystemElement *elem = evaluatePath(dir, newDirectory);
 
-            if (elem != nullptr && elem->isFolder()) {
+            if (elem != nullptr && elem->getType() == FileSystemType::Folder) {
                 GameManager::getInstance()->setDirectory(elem);
             }
             else {

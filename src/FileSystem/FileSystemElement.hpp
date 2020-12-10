@@ -1,6 +1,12 @@
 #pragma once
 #include <string>
 
+enum class FileSystemType {
+    Folder,
+    File,
+    Executable
+};
+
 class FileSystemElement {
     protected:
         std::string name;
@@ -13,7 +19,7 @@ class FileSystemElement {
         virtual ~FileSystemElement() {  }
 
         virtual std::string showTree(std::string prefix, bool last) = 0;
-        virtual bool isFolder() = 0;
+        virtual FileSystemType getType() = 0;
 
         FileSystemElement* getParent() {
             return parent;

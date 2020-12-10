@@ -21,8 +21,8 @@ class File : public FileSystemElement {
             return ans + toString();
         }
 
-        bool isFolder() {
-            return false;
+        FileSystemType getType() {
+            return FileSystemType::File;
         }
 
         std::string getContents() {

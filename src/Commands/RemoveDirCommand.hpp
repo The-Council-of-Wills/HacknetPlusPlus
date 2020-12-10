@@ -9,17 +9,20 @@ class RemoveDirCommand : public Command {
             GameManager *game = GameManager::getInstance();
             FileSystemElement* elem = game->getDirectory()->getElement(args[1]);
             
-            if (elem != nullptr && elem->isFolder()) {
+            if (elem == nullptr) {
+                std::cout << "Error: directory does not exist.\n";
+            }
+            else if (elem->getType() == FileSystemType::Folder) {
                 Folder* folder = (Folder*) elem;
                 if (folder->listChildren().empty()) {
                     game->getDirectory()->deleteElement(args[1]);
                 }
                 else {
-                    std::cout << "Directory is not empty.\n";
+                    std::cout << "Error: directory is not empty.\n";
                 }
             }
             else {
-                std::cout << "Directory does not exist.\n";
+                std::cout << "Error: is not a directory.\n";
             }
         }
 };

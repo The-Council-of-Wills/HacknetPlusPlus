@@ -39,7 +39,6 @@ CommandManager::CommandManager() {
     commands["whoami"]      = new SelfCommand;
     commands["connect"]     = new ConnectCommand;
     commands["whereami"]    = new WhereCommand;
-    commands["addComputer"] = new AddComputerCommand;
     commands["cd"]          = new ChangeDirectoryCommand;
     commands["tree"]        = new TreeCommand;
     commands["ls"]          = new ListDirectoryCommand;

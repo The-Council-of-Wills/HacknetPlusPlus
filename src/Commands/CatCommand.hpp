@@ -10,12 +10,18 @@ class CatCommand : public Command {
             Folder* dir = GameManager::getInstance()->getDirectory();
             FileSystemElement* elem = evaluatePath(dir, filename);
 
-            if (elem != nullptr && !elem->isFolder()) {
+            if (elem == nullptr) {
+                std::cout << "File not found. Please try again.\n";
+            }
+            else if (elem->getType() == FileSystemType::File) {
                 File* file = (File *)elem;
                 std::cout << file->getContents() << '\n';
-                return;
             }
-
-            std::cout << "File not found. Please try again.\n";
+            else if (elem->getType() == FileSystemType::Executable) {
+                std::cout << "Can't open binary file.\n";
+            }
+            else {
+                std::cout << "Can't open a folder.\n";
+            }
         }
 };
