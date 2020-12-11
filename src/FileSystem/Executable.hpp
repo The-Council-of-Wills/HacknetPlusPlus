@@ -18,6 +18,6 @@ class Executable : public FileSystemElement, public Command {
         }
 
         FileSystemType getType() {
-            return FileSystemType::Folder;
+            return FileSystemType::Executable;
         }
 };
