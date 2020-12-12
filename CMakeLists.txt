@@ -2,6 +2,12 @@ cmake_minimum_required(VERSION 3.15)
 
 project(hacknetplusplus)
 
+set (CMAKE_CXX_FLAGS "-ldl")
+
+add_library(lua54 STATIC IMPORTED)
+set_property(TARGET lua54 PROPERTY
+             IMPORTED_LOCATION ${PROJECT_SOURCE_DIR}/liblua54.so)
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -14,3 +20,5 @@ add_custom_command(
         COMMAND ${CMAKE_COMMAND} -E copy
                 ${PROJECT_SOURCE_DIR}/src/banner.txt
                 $<TARGET_FILE_DIR:${PROJECT_NAME}>/assets/banner)
+
+target_link_libraries(hacknetplusplus lua54 ${CMAKE_DL_LIBS})

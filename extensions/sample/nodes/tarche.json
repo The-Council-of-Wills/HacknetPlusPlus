@@ -24,7 +24,7 @@
         "/bin": {
             "SSHOverload.exe": {
                 "executable": true,
-                "for": 22
+                "script": "scripts/hello.lua"
             }
         },
         "/sys": {

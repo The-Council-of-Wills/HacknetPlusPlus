@@ -10,17 +10,6 @@ class File : public FileSystemElement {
             contents = fileContents;
         }
 
-        std::string showTree(std::string prefix, bool last) {
-            std::string ans = prefix;
-            if (last) {
-                ans += u8"└── ";
-            }
-            else {
-                ans += u8"├── ";
-            }
-            return ans + toString();
-        }
-
         FileSystemType getType() {
             return FileSystemType::File;
         }

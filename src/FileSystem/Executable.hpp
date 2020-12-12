@@ -1,25 +1,41 @@
 #pragma once
 #include "FileSystemElement.hpp"
-#include "../Commands/Command.hpp"
+#include "../lib/lua.hpp"
 
-class Executable : public FileSystemElement, public Command {
-    protected:
-        Executable(std::string name) : FileSystemElement(name) { }
+class Executable : public FileSystemElement {
+    private:
+        lua_State* state;
+
+        static void print_error(lua_State* state) {
+            const char* message = lua_tostring(state, -1);
+            std::cerr << message << '\n';
+            lua_pop(state, 1);
+        }
     public: 
-        virtual ~Executable() { };
+        Executable(std::string name, std::string scriptName) : FileSystemElement(name) {
+            state = luaL_newstate();
+            luaL_openlibs(state);
 
-        std::string showTree(std::string prefix, bool last) {
-            std::string ans = prefix;
-            if (last) {
-                ans += u8"└── ";
+            int result = luaL_loadfile(state, scriptName.c_str());
+
+            if (result != LUA_OK) {
+                print_error(state);
             }
-            else {
-                ans += u8"├── ";
-            }
-            return ans + toString();
+        }
+
+        ~Executable() {
+            lua_close(state);
         }
 
         FileSystemType getType() {
             return FileSystemType::Executable;
+        }
+
+        void run(std::vector<std::string> args) {
+            int result = lua_pcall(state, 0, LUA_MULTRET, 0);
+            
+            if (result != LUA_OK) {
+                print_error(state);
+            }
         }
 };

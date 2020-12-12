@@ -10,7 +10,7 @@ class CommandManager {
     private:
         GameManager* game;
         std::map<std::string, Command*> commands;
-        std::map<std::string, Command*> executables;
+        std::map<std::string, Executable*> executables;
     public:
         CommandManager();
 

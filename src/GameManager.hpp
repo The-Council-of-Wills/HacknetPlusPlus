@@ -15,7 +15,17 @@ class GameManager {
     private:
         static GameManager* instance;
 
-        GameManager() { }
+        std::string path;
+
+        Computer* playerComp;
+        Computer* currentComp;
+
+        Folder* currentFolder;
+
+        std::map<std::string, Computer*> computerIDs;
+        std::map<std::string, Computer*> computerNetwork;
+
+        GameManager(std::string path) : path{path} { }
 
         GameManager(Computer* player) {
             playerComp = player;
@@ -31,14 +41,6 @@ class GameManager {
             currentComp = player;
             currentFolder = player->getFileSystem();
         }
-
-        Computer* playerComp;
-        Computer* currentComp;
-
-        Folder* currentFolder;
-
-        std::map<std::string, Computer*> computerIDs;
-        std::map<std::string, Computer*> computerNetwork;
     protected:
         void buildNode(const json &data, const std::string &playerID);
         void buildFileSystem(const json &data, Folder *f);
@@ -127,7 +129,7 @@ void GameManager::loadExtension(std::string path) {
 
     std::map<std::string, std::vector<std::string>> dlinks;
 
-    GameManager *g = new GameManager();
+    GameManager *g = new GameManager(path);
     instance = g;
 
     for (const auto &nodeFile : fs::directory_iterator(nodeFolder)) {
@@ -181,10 +183,12 @@ void GameManager::buildFileSystem(const json &data, Folder *f) {
             GameManager::getInstance()->buildFileSystem(value, folder);
             f->insertElement(folder);
         }
+        
         else {
             if (value.contains("executable") && value["executable"]) {
-                PortCracker *p = new PortCracker(value["for"], name);
-                f->insertElement(p);
+                std::string filename = value["script"];
+                Executable *e = new Executable(name, path + '/' + filename);
+                f->insertElement(e);
             }
             else {
                 std::string content = value["content"];
