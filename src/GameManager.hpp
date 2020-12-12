@@ -173,15 +173,24 @@ void GameManager::buildNode(const json &data, const std::string &playerID) {
 
 void GameManager::buildFileSystem(const json &data, Folder *f) {
     for (auto &elem : data.items()) {
-        if (elem.key()[0] == '/') {
-            Folder* folder = new Folder(elem.key().substr(1));
-            GameManager::getInstance()->buildFileSystem(elem.value(), folder);
+        std::string name = elem.key();
+        json value = elem.value();
+
+        if (name[0] == '/') {
+            Folder* folder = new Folder(name.substr(1));
+            GameManager::getInstance()->buildFileSystem(value, folder);
             f->insertElement(folder);
         }
         else {
-            std::string content = elem.value()["content"];
-            File* file = new File(elem.key(), content);
-            f->insertElement(file);
+            if (value.contains("executable") && value["executable"]) {
+                PortCracker *p = new PortCracker(value["for"], name);
+                f->insertElement(p);
+            }
+            else {
+                std::string content = value["content"];
+                File* file = new File(name, content);
+                f->insertElement(file);
+            }
         }
     }
 }

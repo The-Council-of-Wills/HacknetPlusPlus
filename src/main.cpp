@@ -46,6 +46,7 @@ int main(int argc, char *argv[]) {
         parseArgs(userInput, args);
         
         commands->processCommand(args);
+        commands->updateExecutables();
     }
 }
 

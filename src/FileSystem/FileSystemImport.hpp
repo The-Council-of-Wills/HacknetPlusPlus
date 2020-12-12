@@ -3,6 +3,7 @@
 #include "Folder.hpp"
 #include "File.hpp"
 #include "Executable.hpp"
+#include "PortCracker.hpp"
 
 FileSystemElement* evaluatePath(FileSystemElement* curr, std::string path) {
     if (path[0] == '/') {

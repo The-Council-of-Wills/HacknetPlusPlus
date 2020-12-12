@@ -12,9 +12,7 @@ class FileSystemElement {
         std::string name;
         FileSystemElement* parent = nullptr;
 
-        FileSystemElement(std::string elementName) {
-            name = elementName;
-        }
+        FileSystemElement(std::string name) : name{name} { }
     public:
         virtual ~FileSystemElement() {  }
 

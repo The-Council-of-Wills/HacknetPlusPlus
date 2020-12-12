@@ -3,6 +3,8 @@
 #include "../Commands/Command.hpp"
 
 class Executable : public FileSystemElement, public Command {
+    protected:
+        Executable(std::string name) : FileSystemElement(name) { }
     public: 
         virtual ~Executable() { };
 

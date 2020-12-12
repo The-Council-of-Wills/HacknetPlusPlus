@@ -22,7 +22,10 @@
 
         },
         "/bin": {
-
+            "SSHOverload.exe": {
+                "executable": true,
+                "for": 22
+            }
         },
         "/sys": {
             "x-server.sys": {

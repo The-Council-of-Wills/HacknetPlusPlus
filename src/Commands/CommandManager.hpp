@@ -10,6 +10,7 @@ class CommandManager {
     private:
         GameManager* game;
         std::map<std::string, Command*> commands;
+        std::map<std::string, Command*> executables;
     public:
         CommandManager();
 
@@ -27,11 +28,30 @@ class CommandManager {
             if (commands.count(args[0])) {
                 commands[args[0]]->run(args);
             }
+            else if (executables.count(args[0])) {
+                executables[args[0]]->run(args);
+            }
             else {
                 std::cout << "Unknown command." << '\n';
             }
         }
+
+        void updateExecutables();
 };
+
+void CommandManager::updateExecutables() {
+    Folder* playerRoot = GameManager::getInstance()->getPlayerDir();
+    Folder* binFolder = playerRoot->getOrCreateFolder("bin");
+    
+    executables.clear();
+    //Note: we dont erase the Command* because, if the file was deleted, the Command was deleted there,
+    //and if it wasnt, we will add the pointer back again.
+
+    for (auto elem : binFolder->getChildren()) {
+        if (elem->getType() != FileSystemType::Executable) continue;
+        executables[elem->getName()] = (Executable *)elem;
+    }
+}
 
 CommandManager::CommandManager() {
     commands["scan"]        = new ScanCommand;
