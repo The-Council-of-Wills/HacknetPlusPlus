@@ -33,6 +33,8 @@ int main(int argc, char *argv[]) {
     game->showConnected();
 
     while (true) {
+        commands->updateExecutables();
+        
         std::cout << '>';
         std::string userInput;
         getline(std::cin, userInput);
@@ -46,7 +48,6 @@ int main(int argc, char *argv[]) {
         parseArgs(userInput, args);
         
         commands->processCommand(args);
-        commands->updateExecutables();
     }
 }
 
