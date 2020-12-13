@@ -1,30 +1,21 @@
 #pragma once
 #include "FileSystemElement.hpp"
-#include "../lib/lua.hpp"
+#include "../lib/sol/sol.hpp"
 
 class Executable : public FileSystemElement {
     private:
-        lua_State* state;
-
-        static void print_error(lua_State* state) {
-            const char* message = lua_tostring(state, -1);
-            std::cerr << message << '\n';
-            lua_pop(state, 1);
-        }
+        sol::state lua;
+        sol::load_result script;
     public: 
         Executable(std::string name, std::string scriptName) : FileSystemElement(name) {
-            state = luaL_newstate();
-            luaL_openlibs(state);
+            lua.open_libraries(sol::lib::base);
+            script = lua.load_file(scriptName);
 
-            int result = luaL_loadfile(state, scriptName.c_str());
-
-            if (result != LUA_OK) {
-                print_error(state);
+            if (!script.valid()) {
+                sol::error err = script;
+                std::cerr << "There was an error parsing file: " << scriptName << '\n';
+                std::cerr << err.what() << '\n';
             }
-        }
-
-        ~Executable() {
-            lua_close(state);
         }
 
         FileSystemType getType() {
@@ -32,10 +23,6 @@ class Executable : public FileSystemElement {
         }
 
         void run(std::vector<std::string> args) {
-            int result = lua_pcall(state, 0, LUA_MULTRET, 0);
-            
-            if (result != LUA_OK) {
-                print_error(state);
-            }
+            script(args);
         }
 };
