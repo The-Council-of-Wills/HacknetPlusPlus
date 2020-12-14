@@ -3,7 +3,7 @@
 
 class RemoveCommand : public Command {
     public:
-        void run(std::vector<std::string> args) {
+        void run(const std::vector<std::string> &args) override {
             if (!hasExactArguments(2, args)) return;
             
             Folder* directory = GameManager::getInstance()->getDirectory();

@@ -4,7 +4,7 @@
 
 class HelpCommand : public Command {
     public:
-        void run(std::vector<std::string> args) {
+        void run(const std::vector<std::string> &args) override {
             if (!hasExactArguments(1, args)) return;
             
             std::ifstream in("assets/help");

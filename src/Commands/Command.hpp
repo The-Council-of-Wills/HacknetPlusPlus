@@ -4,7 +4,7 @@
 
 class Command {
     protected:
-        bool hasExactArguments(int amount, const std::vector<std::string> &args) {
+        static bool hasExactArguments(int amount, const std::vector<std::string> &args) {
             if ((int)args.size() < amount) {
                 std::cout << "Missing arguments.\n";
                 return false;
@@ -18,5 +18,5 @@ class Command {
     public:
         virtual ~Command() {  };
 
-        virtual void run(std::vector<std::string> args) = 0;
+        virtual void run(const std::vector<std::string> &args) = 0;
 };
