@@ -14,24 +14,20 @@ class Computer {
         std::set<Computer*> links;
 
         Folder* root = new Folder("/");
-        SecuritySuite* security;
+        SecuritySuite security;
     public:
         Computer(std::string name, std::string id, std::string ip, int securityLevel) : 
-            name{name}, id{id}, ip{ip}
-        {
-            security = new SecuritySuite(securityLevel);
-        }
+            name{name}, id{id}, ip{ip}, security(securityLevel) { }
 
         ~Computer() {
             delete root;
-            delete security;
         }
 
         Folder* getFileSystem() {
             return root;
         }
 
-        SecuritySuite* getSecurity() {
+        SecuritySuite getSecurity() {
             return security;
         }
 
