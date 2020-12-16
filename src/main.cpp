@@ -2,12 +2,14 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include <thread>
+#include <chrono>
 #include "GameManager.hpp"
 #include "Commands/CommandManager.hpp"
 #include "FileSystem/FileSystemImport.hpp"
 #include "Computer.hpp"
 
-void showBanner();
+void startupText();
 void parseArgs(std::string userInput, std::vector<std::string> &out);
 
 int main(int argc, char *argv[]) {
@@ -27,9 +29,8 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    showBanner();
-    std::cout << "Enter 'help' for a list of commands" << '\n';
-
+    startupText();
+    
     GameManager* game = GameManager::getInstance();
     CommandManager* commands = new CommandManager();
 
@@ -38,6 +39,7 @@ int main(int argc, char *argv[]) {
     while (true) {
         commands->updateExecutables();
         
+        //TODO: Process user input in another thread
         std::cout << '>';
         std::string userInput;
         getline(std::cin, userInput);
@@ -54,19 +56,22 @@ int main(int argc, char *argv[]) {
     }
 }
 
-void showBanner() {
+void startupText() {
     std::string buffer;
     std::ifstream bannerStream("assets/banner");
 
-    if (!bannerStream.is_open()) return;
+    if (bannerStream.is_open()) {
+        while (getline(bannerStream, buffer)) {
+            std::cout << buffer << '\n';
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        }
 
-    while (getline(bannerStream, buffer)) {
-        std::cout << buffer << '\n';
+        bannerStream.close();
+        std::cout << "\n\n";
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
     }
 
-    bannerStream.close();
-
-    std::cout << "\n\n";
+    std::cout << "Enter 'help' for a list of commands" << '\n';
 }
 
 void parseArgs(std::string userInput, std::vector<std::string> &out) {
