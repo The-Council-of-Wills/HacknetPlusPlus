@@ -16,3 +16,4 @@ build
 liblua54.so
 lua54.dll
 liblua54.a
+CMakeSettings.json
