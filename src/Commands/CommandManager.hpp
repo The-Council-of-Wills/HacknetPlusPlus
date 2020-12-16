@@ -27,9 +27,17 @@ class CommandManager {
         void processCommand(std::vector<std::string> args) {
             if (commands.count(args[0])) {
                 commands[args[0]]->run(args);
+                /*
+                    TODO: change to syntax like executable
+                    Why: makes possible to execute commands in other computers without
+                         being the current and it's more self-explicative.
+                    How: probably by calling commands from Computer object and passing
+                         an instance of itself or something like that.
+                */
             }
             else if (executables.count(args[0])) {
-                executables[args[0]]->run(args);
+                game->getCurrentComputer()->run(executables[args[0]], args);
+                //executables[args[0]]->run(game->getCurrent()->getLua(), args);
             }
             else {
                 std::cout << "Unknown command." << '\n';
@@ -48,12 +56,12 @@ void CommandManager::updateExecutables() {
     //and if it wasnt, we will add the pointer back again.
 
     for (auto elem : binFolder->getChildren()) {
-        if (elem->getType() != FileSystemType::Executable) continue;
-        executables[elem->getName()] = (Executable *)elem;
+        if (elem->getType() == FileSystemType::Executable)
+            executables[elem->getName()] = (Executable *)elem;
     }
 }
 
-CommandManager::CommandManager() {
+CommandManager::CommandManager() : game{ GameManager::getInstance() } {
     commands["scan"]        = new ScanCommand;
     commands["self"]        = new SelfCommand;
     commands["whoami"]      = new SelfCommand;
