@@ -6,4 +6,5 @@ There isn't much going on yet, but feel free to check it out, and, if you feel l
 ______
 
 ### Compilation: 
-I, [tarche](https://github.com/lucastarche) personally compile it using g++ with std=c++11, but thanks to [Lucina](https://github.com/Lucina) now there is also a cmake file for your convinience. 
+
+For compiling use the provided cmake. Note that you may need to add liblua54.so in UNIX, and lua54.dll and liblua54.a in Windows. 
