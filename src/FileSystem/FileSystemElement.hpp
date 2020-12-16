@@ -16,7 +16,7 @@ class FileSystemElement {
     public:
         virtual ~FileSystemElement() {  }
 
-        virtual std::string showTree(std::string prefix, bool last) {
+        virtual std::string getTree(std::string prefix, bool last) {
             std::string ans = prefix;
             if (last) {
                 ans += u8"└── ";

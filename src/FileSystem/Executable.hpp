@@ -1,6 +1,5 @@
 #pragma once
 #include "FileSystemElement.hpp"
-#include "../lib/sol/sol.hpp"
 
 class Executable : public FileSystemElement {
     std::string scriptName;

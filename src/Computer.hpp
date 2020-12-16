@@ -4,6 +4,7 @@
 #include <set>
 #include "Security/SecuritySuite.hpp"
 #include "FileSystem/FileSystemImport.hpp"
+#include "lib/sol/sol.hpp"
 
 class Computer {
     private:
@@ -29,6 +30,33 @@ class Computer {
             //               |  function name   |      method definition      | instance
             lua.set_function("getSystemVariable", &Computer::getSystemVariable, this);
             lua.set_function("setSystemVariable", &Computer::setSystemVariable, this);
+            lua.set_function("getFileSystem", &Computer::getFileSystem, this);
+
+            /*
+            Usertype registration
+            Used for interacting with the API
+            in an OOP manner.
+
+            Example:
+            root = getFileSystem()
+            print(root:getTree())
+            */ 
+            sol::usertype<FileSystemElement> fsElementType = lua.new_usertype<FileSystemElement>("FileSystemElement");
+            fsElementType.set_function("getParent", &FileSystemElement::getParent);
+            fsElementType.set_function("getName", &FileSystemElement::getName);
+            fsElementType.set_function("toString", &FileSystemElement::toString);
+
+            sol::usertype<Folder> folderType = lua.new_usertype<Folder>("Folder",
+                                                                        sol::constructors<Folder(std::string)>(),
+                                                                        sol::base_classes, sol::bases<FileSystemElement>());
+
+            folderType.set_function("getTree", sol::resolve<std::string()>(&Folder::getTree));
+            folderType.set_function("getType", &Folder::getType);
+            folderType.set_function("setParent", &Folder::setParent);
+            folderType.set_function("openFolder", &Folder::getOrCreateFolder);
+            // folderType.set_function("openFile", &Folder::getOrCreateFile);
+            folderType.set_function("getElement", &Folder::getElement);
+            folderType.set_function("getChildren", &Folder::getChildrenTable);
         }
 
         ~Computer() {
