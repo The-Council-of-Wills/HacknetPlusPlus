@@ -14,3 +14,4 @@ out
 build
 .vscode
 liblua54.so
+liblua54.dll

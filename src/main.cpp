@@ -13,7 +13,10 @@ void parseArgs(std::string userInput, std::vector<std::string> &out);
 int main(int argc, char *argv[]) {
     if (argc == 1) {
         std::cerr << "Debug mode enabled" << '\n';
-        std::cerr << "No extension will be loaded." << '\n';
+        //std::cerr << "No extension will be loaded." << '\n';
+        std::cerr << "Loading sample extension." << '\n';
+
+        GameManager::loadExtension("./extensions/sample");
     }
     else if (argc == 2) {
         std::string extensionFolder(argv[1]);
@@ -25,7 +28,7 @@ int main(int argc, char *argv[]) {
     }
 
     showBanner();
-    std::cout << "Enter help for a list of commands" << '\n';
+    std::cout << "Enter 'help' for a list of commands" << '\n';
 
     GameManager* game = GameManager::getInstance();
     CommandManager* commands = new CommandManager();

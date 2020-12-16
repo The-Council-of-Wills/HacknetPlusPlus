@@ -85,7 +85,7 @@ class GameManager {
             currentFolder = (Folder*)dir;
         }
 
-        Computer* getCurrent() {
+        Computer* getCurrentComputer() {
             return currentComp;
         }
 

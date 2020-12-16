@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <any>
 #include <set>
 #include "Security/SecuritySuite.hpp"
 #include "FileSystem/FileSystemImport.hpp"
@@ -15,9 +16,20 @@ class Computer {
 
         Folder* root = new Folder("/");
         SecuritySuite security;
+
+        sol::state lua;
+
+        std::map<std::string, sol::object> systemVars;
     public:
         Computer(std::string name, std::string id, std::string ip, int securityLevel) : 
-            name{name}, id{id}, ip{ip}, security(securityLevel) { }
+            name{name}, id{id}, ip{ip}, security(securityLevel)
+        {
+            lua.open_libraries(sol::lib::base);
+
+            //               |  function name   |      method definition      | instance
+            lua.set_function("getSystemVariable", &Computer::getSystemVariable, this);
+            lua.set_function("setSystemVariable", &Computer::setSystemVariable, this);
+        }
 
         ~Computer() {
             delete root;
@@ -62,4 +74,33 @@ class Computer {
 
             return res;
         }
+
+        void run(Executable* exe, std::vector<std::string> args) {
+            sol::load_result load = lua.load_file(exe->getScript());
+
+            if (!load.valid()) {
+                sol::error err = load;
+                std::cerr << "There was an error parsing file: " << exe->getName() << '\n';
+                std::cerr << err.what() << '\n';
+            }
+
+            sol::function f = load;
+            sol::environment execEnv(lua, sol::create, lua.globals());
+            sol::set_environment(execEnv, f);
+
+            f(sol::as_table(args));
+        }
+
+
+        // ============================== LUA API ============================== 
+
+        sol::object getSystemVariable(std::string key) {
+            return systemVars[key];
+        }
+
+        void setSystemVariable(std::string key, sol::object value) {
+            systemVars[key] = value;
+        }
+
+        // =====================================================================
 };
