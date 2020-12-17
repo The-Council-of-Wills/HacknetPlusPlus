@@ -34,10 +34,10 @@ class Folder : public FileSystemElement {
             folderType.set_function("getChildren", &Folder::getChildrenTable);
 
             folderType.set_function("getFiles", &Folder::getFilesTable);
-            folderType.set_function("getFile", &Folder::getFile);
+            //folderType.set_function("getFile", &Folder::getFile);
 
             folderType.set_function("getFolders", &Folder::getFoldersTable);
-            folderType.set_function("getFile", &Folder::getFolder);
+            //folderType.set_function("getFile", &Folder::getFolder);
         }
 
         FileSystemType getType() {
@@ -106,11 +106,13 @@ class Folder : public FileSystemElement {
             return sol::as_table(getFiles());
         }
 
+        /*
         File* getFile(std::string name) {
             if (children[name]->getType() == FileSystemType::File)
                 return (File*)children[name];
             else return nullptr;
         }
+        */
 
         std::vector<Folder*> getFolders() {
             std::vector<Folder*> ret;
@@ -126,11 +128,13 @@ class Folder : public FileSystemElement {
             return sol::as_table(getFolders());
         }
 
+        /*
         Folder* getFolder(std::string name) {
             if (children[name]->getType() == FileSystemType::Folder)
                 return (Folder*)children[name];
             else return nullptr;
         }
+        */
 
         std::string listChildren() {
             std::string ans;
