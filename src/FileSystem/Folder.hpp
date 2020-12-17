@@ -4,11 +4,12 @@
 #include <map>
 #include "FileSystemElement.hpp"
 #include "File.hpp"
-#include "../lib/sol/sol.hpp"
 
 class Folder : public FileSystemElement {
     private:
         std::map<std::string, FileSystemElement*> children;
+        sol::state* lua;
+
     public:
         Folder(std::string folderName) : FileSystemElement(folderName) {  }
 
@@ -18,22 +19,26 @@ class Folder : public FileSystemElement {
             }
         }
 
-        /*
         static void registerUsertype(sol::state& lua) {
-            sol::usertype<Folder> usertype = lua.new_usertype<Folder>("Folder", sol::constructors<Folder(std::string)>());
 
-            // TODO: add getOrCreateFolder, getOrCreateFile, getElement and getChildren
-            
-            
-            usertype.set_function("getTree", &Folder::getTree);
-            usertype.set_function("getType", &Folder::getType);
-            usertype.set_function("getParent", &Folder::getParent);
-            usertype.set_function("setParent", &Folder::setParent);
-            usertype.set_function("getName", &Folder::getName);
-            usertype.set_function("toString", &Folder::toString);
-            
+            sol::usertype<Folder> folderType = lua.new_usertype<Folder>("Folder",
+                sol::constructors<Folder(std::string)>(),
+                sol::base_classes, sol::bases<FileSystemElement>());
+
+            folderType.set_function("getTree", sol::resolve<std::string()>(&Folder::getTree));
+            folderType.set_function("getType", &Folder::getType);
+            folderType.set_function("setParent", &Folder::setParent);
+            folderType.set_function("openFolder", &Folder::getOrCreateFolder);
+            folderType.set_function("openFile", &Folder::openFile);
+            folderType.set_function("getElement", &Folder::getElementObject);
+            folderType.set_function("getChildren", &Folder::getChildrenTable);
+
+            folderType.set_function("getFiles", &Folder::getFilesTable);
+            folderType.set_function("getFile", &Folder::getFile);
+
+            folderType.set_function("getFolders", &Folder::getFoldersTable);
+            folderType.set_function("getFile", &Folder::getFolder);
         }
-        */
 
         FileSystemType getType() {
             return FileSystemType::Folder;
@@ -45,6 +50,19 @@ class Folder : public FileSystemElement {
             return nullptr;
         }
 
+        sol::object getElementObject(sol::this_state s, std::string elementName) {
+            FileSystemElement* element = getElement(elementName);
+
+            if (element == nullptr)
+                return sol::nil;
+            else if (element->getType() == FileSystemType::File)
+                return sol::make_object(s, (File*)element);
+            else if (element->getType() == FileSystemType::Folder)
+                return sol::make_object(s, (Folder*)element);
+            else
+                return sol::nil;
+        }
+
         Folder* getOrCreateFolder(std::string elementName) {
             Folder* temp = (Folder*)getElement(elementName);
             if (temp != nullptr) return temp;
@@ -54,7 +72,7 @@ class Folder : public FileSystemElement {
         }
 
         // Probably better named: "openFile"
-        File* getOrCreateFile(std::string elementName) {
+        File* openFile(std::string elementName) {
             File* temp = (File*)getElement(elementName);
             if (temp != nullptr) return temp;
             temp = new File(elementName);
@@ -72,6 +90,46 @@ class Folder : public FileSystemElement {
 
         sol::as_table_t<std::vector<FileSystemElement*>> getChildrenTable() {
             return sol::as_table(getChildren());
+        }
+
+        std::vector<File*> getFiles() {
+            std::vector<File*> ret;
+
+            for (auto child : children)
+                if (child.second->getType() == FileSystemType::File)
+                    ret.push_back((File*) child.second);
+
+            return ret;
+        }
+
+        sol::as_table_t<std::vector<File*>> getFilesTable() {
+            return sol::as_table(getFiles());
+        }
+
+        File* getFile(std::string name) {
+            if (children[name]->getType() == FileSystemType::File)
+                return (File*)children[name];
+            else return nullptr;
+        }
+
+        std::vector<Folder*> getFolders() {
+            std::vector<Folder*> ret;
+
+            for (auto child : children)
+                if (child.second->getType() == FileSystemType::Folder)
+                    ret.push_back((Folder*) child.second);
+
+            return ret;
+        }
+
+        sol::as_table_t<std::vector<Folder*>> getFoldersTable() {
+            return sol::as_table(getFolders());
+        }
+
+        Folder* getFolder(std::string name) {
+            if (children[name]->getType() == FileSystemType::Folder)
+                return (Folder*)children[name];
+            else return nullptr;
         }
 
         std::string listChildren() {

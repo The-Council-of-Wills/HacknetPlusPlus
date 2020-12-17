@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "../lib/sol/sol.hpp"
 
 enum class FileSystemType {
     Folder,

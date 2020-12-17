@@ -26,6 +26,9 @@ class Computer {
             name{name}, id{id}, ip{ip}, security(securityLevel)
         {
             lua.open_libraries(sol::lib::base);
+            lua.open_libraries(sol::lib::string);
+            lua.open_libraries(sol::lib::math);
+            lua.open_libraries(sol::lib::table);
 
             //               |  function name   |      method definition      | instance
             lua.set_function("getSystemVariable", &Computer::getSystemVariable, this);
@@ -41,22 +44,15 @@ class Computer {
             root = getFileSystem()
             print(root:getTree())
             */ 
+
             sol::usertype<FileSystemElement> fsElementType = lua.new_usertype<FileSystemElement>("FileSystemElement");
             fsElementType.set_function("getParent", &FileSystemElement::getParent);
             fsElementType.set_function("getName", &FileSystemElement::getName);
             fsElementType.set_function("toString", &FileSystemElement::toString);
 
-            sol::usertype<Folder> folderType = lua.new_usertype<Folder>("Folder",
-                                                                        sol::constructors<Folder(std::string)>(),
-                                                                        sol::base_classes, sol::bases<FileSystemElement>());
 
-            folderType.set_function("getTree", sol::resolve<std::string()>(&Folder::getTree));
-            folderType.set_function("getType", &Folder::getType);
-            folderType.set_function("setParent", &Folder::setParent);
-            folderType.set_function("openFolder", &Folder::getOrCreateFolder);
-            // folderType.set_function("openFile", &Folder::getOrCreateFile);
-            folderType.set_function("getElement", &Folder::getElement);
-            folderType.set_function("getChildren", &Folder::getChildrenTable);
+            File::registerUsertype(lua);
+            Folder::registerUsertype(lua);
         }
 
         ~Computer() {

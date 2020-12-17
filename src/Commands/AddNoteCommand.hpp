@@ -10,7 +10,7 @@ class AddNoteCommand : public Command {
             playerDir = playerDir->getOrCreateFolder("home");
             playerDir = playerDir->getOrCreateFolder("notes");
 
-            File* notes = playerDir->getOrCreateFile("notes.txt");
+            File* notes = playerDir->openFile("notes.txt");
             notes->append(args[1]);
         }
 };
