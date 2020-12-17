@@ -25,7 +25,19 @@
             "SSHOverload.exe": {
                 "executable": true,
                 "script": "scripts/hello.lua"
-            }
+            },
+			"JunkGenerator.exe": {
+				"executable": true,
+				"script": "scripts/junk_generator.lua"
+			},
+			"tree.exe": {
+				"executable": true,
+				"script": "scripts/tree.lua"
+			},
+			"notes.exe": {
+				"executable": true,
+				"script": "scripts/notes.lua"
+			}
         },
         "/sys": {
             "x-server.sys": {
