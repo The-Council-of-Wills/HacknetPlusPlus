@@ -37,6 +37,8 @@ add_custom_command(
                 $<TARGET_FILE_DIR:${PROJECT_NAME}>/assets/banner
         COMMAND ${CMAKE_COMMAND} -E copy
                 ${HP_LIBS_BINARIES}
-                $<TARGET_FILE_DIR:${PROJECT_NAME}>)
+                $<TARGET_FILE_DIR:${PROJECT_NAME}>
+)
 
-target_link_libraries(${PROJECT_NAME} ${CMAKE_DL_LIBS} ${HP_LINK_LIBS})
+#Note: Leave ${CMAKE_DL_LIBS} last, or else it will throw a linking error.
+target_link_libraries(${PROJECT_NAME} ${HP_LINK_LIBS} ${CMAKE_DL_LIBS})
