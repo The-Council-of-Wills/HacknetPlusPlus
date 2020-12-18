@@ -14,6 +14,7 @@ namespace fs = std::filesystem;
 class GameManager {
     private:
         static GameManager* instance;
+        static fs::path* app_dir;
 
         std::string path;
 
@@ -50,6 +51,23 @@ class GameManager {
                 instance = new GameManager(new Computer("Tarche's battlestation", "tarche", "123.123.123.123", 4));
             }
             return instance;
+        }
+
+        static void setAppDirFromExe(const char* exe) {
+            // This is a hard guess. Just assume argv[0] is the right path.
+            app_dir = new fs::path(fs::path(exe).parent_path());
+        }
+
+        static fs::path* getAppDir() {
+            if(app_dir == nullptr) {
+                app_dir = new fs::path(".");
+            }
+
+            return app_dir;
+        }
+
+        static std::string getResource(const char* path) {
+            return (*getAppDir() / fs::path(path)).string();
         }
 
         static void loadExtension(std::string path);
@@ -107,6 +125,7 @@ class GameManager {
 };
 
 GameManager* GameManager::instance = nullptr;
+fs::path* GameManager::app_dir = nullptr;
 
 void GameManager::loadExtension(std::string path) {
     json extensionInfo;
