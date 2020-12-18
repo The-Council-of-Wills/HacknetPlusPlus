@@ -11,6 +11,7 @@ void showBanner();
 void parseArgs(std::string userInput, std::vector<std::string> &out);
 
 int main(int argc, char *argv[]) {
+    GameManager::setAppDirFromExe(argv[0]);
     if (argc == 1) {
         std::cerr << "Debug mode enabled" << '\n';
         //std::cerr << "No extension will be loaded." << '\n';
@@ -56,7 +57,7 @@ int main(int argc, char *argv[]) {
 
 void showBanner() {
     std::string buffer;
-    std::ifstream bannerStream("assets/banner");
+    std::ifstream bannerStream(GameManager::getResource("assets/banner"));
 
     if (!bannerStream.is_open()) return;
 

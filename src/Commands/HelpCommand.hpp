@@ -7,7 +7,7 @@ class HelpCommand : public Command {
         void run(const std::vector<std::string> &args) override {
             if (!hasExactArguments(1, args)) return;
             
-            std::ifstream in("assets/help");
+            std::ifstream in(GameManager::getResource("assets/help"));
             if (!in.is_open()) {
                 std::cerr << "Error opening help file.\n";
                 return;
