@@ -7,4 +7,4 @@ ______
 
 ### Compilation: 
 
-For compiling use the provided cmake. Note that you may need to add liblua54.so in UNIX, and lua54.dll and liblua54.a in Windows. 
+For compiling use the provided cmake.
