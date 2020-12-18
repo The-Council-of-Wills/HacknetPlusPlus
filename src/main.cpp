@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
     while (true) {
         commands->updateExecutables();
         
-        std::cout << '>';
+        std::cout << game->getDirectory()->getPath() << '>';
         std::string userInput;
         getline(std::cin, userInput);
 

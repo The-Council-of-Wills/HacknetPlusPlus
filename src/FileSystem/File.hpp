@@ -28,7 +28,7 @@ class File : public FileSystemElement {
         }
 
         void append(std::string text) {
-            if (!contents.empty()) contents += '\n';
             contents += text;
         }
+        
 };

@@ -7,7 +7,7 @@ class RemoveCommand : public Command {
             if (!hasExactArguments(2, args)) return;
             
             Folder* directory = GameManager::getInstance()->getDirectory();
-            FileSystemElement* elem = evaluatePath(directory, args[1]);
+            FileSystemElement* elem = Folder::evaluatePath(directory, args[1]);
             
             if (elem == nullptr) {
                 std::cout << "Error: file does not exist.\n";

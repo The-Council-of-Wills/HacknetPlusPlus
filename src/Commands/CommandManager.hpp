@@ -62,22 +62,26 @@ void CommandManager::updateExecutables() {
 }
 
 CommandManager::CommandManager() : game{ GameManager::getInstance() } {
+    /*
     commands["scan"]        = new ScanCommand;
     commands["self"]        = new SelfCommand;
     commands["whoami"]      = new SelfCommand;
     commands["connect"]     = new ConnectCommand;
     commands["whereami"]    = new WhereCommand;
+    */
     commands["cd"]          = new ChangeDirectoryCommand;
-    commands["tree"]        = new TreeCommand;
+    //commands["tree"]        = new TreeCommand;
     commands["ls"]          = new ListDirectoryCommand;
     commands["cat"]         = new CatCommand;
     commands["mkdir"]       = new MakeDirCommand;
     commands["rmdir"]       = new RemoveDirCommand;
+    /*
     commands["touch"]       = new TouchCommand;
     commands["append"]      = new AppendCommand;
     commands["probe"]       = new ProbeCommand;
     commands["help"]        = new HelpCommand;
     commands["notes"]       = new NotesCommand;
     commands["addNote"]     = new AddNoteCommand;
+    */
     commands["rm"]          = new RemoveCommand;
 }

@@ -71,7 +71,6 @@ class Folder : public FileSystemElement {
             return temp;
         }
 
-        // Probably better named: "openFile"
         File* openFile(std::string elementName) {
             File* temp = (File*)getElement(elementName);
             if (temp != nullptr) return temp;
@@ -203,5 +202,41 @@ class Folder : public FileSystemElement {
         void deleteElement(std::string elementName) {
             delete children[elementName];
             children.erase(elementName);
+        }
+
+        static FileSystemElement* evaluatePath(Folder* curr, std::string path) {
+            if (path[0] == '/') {
+                while (curr->getParent() != nullptr)
+                    curr = (Folder*) curr->getParent();
+            }
+
+            std::stringstream pathStream(path);
+            std::string buffer;
+            bool foundFile = false;
+            while (getline(pathStream, buffer, '/')) {
+                if (buffer.empty() || buffer == ".") continue;
+                if (curr == nullptr) return nullptr;
+                if (curr->getType() == FileSystemType::Folder) {
+                    if (buffer == "..") {
+                        curr = (Folder*) curr->getParent();
+                    }
+                    else {
+                        Folder* currFolder = (Folder *)curr;
+                        curr = (Folder*) currFolder->getElement(buffer);
+                    }
+                }
+                else if (foundFile) {
+                    return nullptr;
+                }
+                else {
+                    foundFile = true;
+                }
+            }
+
+            return curr;
+        }
+
+        FileSystemElement* evaluatePath(std::string path) {
+            return Folder::evaluatePath(this, path);
         }
 };

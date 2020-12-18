@@ -18,12 +18,14 @@ class Computer {
         Folder* root = new Folder("/");
         SecuritySuite security;
 
+        Folder* currentDirectory = root;
+
         sol::state lua;
 
         std::map<std::string, sol::object> systemVars;
     public:
-        Computer(std::string name, std::string id, std::string ip, int securityLevel) : 
-            name{name}, id{id}, ip{ip}, security(securityLevel)
+        Computer(std::string name, std::string id, std::string ip, int securityLevel) :
+            name { name }, id{ id }, ip{ ip }, security(securityLevel)
         {
             lua.open_libraries(sol::lib::base);
             lua.open_libraries(sol::lib::string);
@@ -34,6 +36,7 @@ class Computer {
             lua.set_function("getSystemVariable", &Computer::getSystemVariable, this);
             lua.set_function("setSystemVariable", &Computer::setSystemVariable, this);
             lua.set_function("getFileSystem", &Computer::getFileSystem, this);
+            lua.set_function("getcwd", &Computer::getDirectory, this); // FIX
 
             /*
             Usertype registration
@@ -97,6 +100,14 @@ class Computer {
             }
 
             return res;
+        }
+
+        void setDirectory(Folder* dir) {
+            currentDirectory = dir;
+        }
+
+        Folder* getDirectory() {
+            return currentDirectory;
         }
 
         void run(Executable* exe, std::vector<std::string> args) {

@@ -15,22 +15,22 @@ class GameManager {
     private:
         static GameManager* instance;
 
-        std::string path;
+        std::string extensionPath;
 
         Computer* playerComp;
         Computer* currentComp;
 
-        Folder* currentFolder;
+        //Folder* currentFolder;
 
         std::map<std::string, Computer*> computerIDs;
         std::map<std::string, Computer*> computerNetwork;
 
-        GameManager(std::string path) : path{path} { }
+        GameManager(std::string extensionPath) : extensionPath{extensionPath} { }
 
         GameManager(Computer* player) {
             playerComp = player;
             currentComp = player;
-            currentFolder = player->getFileSystem();
+            //currentFolder = player->getFileSystem();
 
             std::string ip = player->getIP();
             computerNetwork[ip] = player;
@@ -39,7 +39,7 @@ class GameManager {
         void setPlayer(Computer* player) {
             playerComp = player;
             currentComp = player;
-            currentFolder = player->getFileSystem();
+            //currentFolder = player->getFileSystem();
         }
     protected:
         void buildNode(const json &data, const std::string &playerID);
@@ -52,7 +52,7 @@ class GameManager {
             return instance;
         }
 
-        static void loadExtension(std::string path);
+        static void loadExtension(std::string extensionPath);
 
         ~GameManager() {
             for (auto c : computerNetwork) {
@@ -76,13 +76,14 @@ class GameManager {
             }
             else {
                 currentComp = computerNetwork[ip];
-                currentFolder = currentComp->getFileSystem();
+                //currentFolder = currentComp->getFileSystem();
                 showConnected();
             }
         }
 
-        void setDirectory(FileSystemElement* dir) {
-            currentFolder = (Folder*)dir;
+        void setDirectory(Folder* dir) {
+            currentComp->setDirectory(dir);
+            //currentFolder = (Folder*)dir;
         }
 
         Computer* getCurrentComputer() {
@@ -94,7 +95,7 @@ class GameManager {
         }
 
         Folder* getDirectory() {
-            return currentFolder;
+            return currentComp->getDirectory();
         }
 
         Folder* getPlayerDir() {
@@ -108,9 +109,9 @@ class GameManager {
 
 GameManager* GameManager::instance = nullptr;
 
-void GameManager::loadExtension(std::string path) {
+void GameManager::loadExtension(std::string extensionPath) {
     json extensionInfo;
-    std::ifstream infoFile(path + "/extension_info.json");
+    std::ifstream infoFile(extensionPath + "/extension_info.json");
     
     if (!infoFile.is_open()) {
         std::cerr << "Error opening extension_info.json" << '\n';
@@ -125,11 +126,11 @@ void GameManager::loadExtension(std::string path) {
     }
 
     std::string playerID = extensionInfo["playerComp"];
-    std::string nodeFolder = path + "/" + (std::string)extensionInfo["nodeFolder"];
+    std::string nodeFolder = extensionPath + "/" + (std::string)extensionInfo["nodeFolder"];
 
     std::map<std::string, std::vector<std::string>> dlinks;
 
-    GameManager *g = new GameManager(path);
+    GameManager *g = new GameManager(extensionPath);
     instance = g;
 
     for (const auto &nodeFile : fs::directory_iterator(nodeFolder)) {
@@ -187,7 +188,7 @@ void GameManager::buildFileSystem(const json &data, Folder *f) {
         else {
             if (value.contains("executable") && value["executable"]) {
                 std::string filename = value["script"];
-                Executable *e = new Executable(name, path + '/' + filename);
+                Executable *e = new Executable(name, extensionPath + '/' + filename);
                 f->insertElement(e);
             }
             else {

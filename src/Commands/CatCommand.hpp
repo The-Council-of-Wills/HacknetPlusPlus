@@ -8,7 +8,7 @@ class CatCommand : public Command {
 
             std::string filename = args[1];
             Folder* dir = GameManager::getInstance()->getDirectory();
-            FileSystemElement* elem = evaluatePath(dir, filename);
+            FileSystemElement* elem = Folder::evaluatePath(dir, filename);
 
             if (elem == nullptr) {
                 std::cout << "File not found. Please try again.\n";

@@ -37,6 +37,21 @@ class FileSystemElement {
             parent = parentElement;
         }
 
+        std::string getPath() {
+            if (parent != nullptr) {
+                std::string parentPath = parent->getPath();
+
+                if (parentPath.back() != '/') //(parentPath != "/")
+                    return parentPath + '/' + name;
+                else
+                    return parentPath + name;
+            }
+            else if (name.front() != '/')
+                return '/' + name;
+            else
+                return name;
+        }
+
         std::string getName() {
             return name;
         }
@@ -44,4 +59,5 @@ class FileSystemElement {
         std::string toString() {
             return name;
         }
+
 };

@@ -7,10 +7,7 @@ class AddNoteCommand : public Command {
             if (!hasExactArguments(2, args)) return;
             
             Folder* playerDir = GameManager::getInstance()->getPlayerDir();
-            playerDir = playerDir->getOrCreateFolder("home");
-            playerDir = playerDir->getOrCreateFolder("notes");
-
-            File* notes = playerDir->openFile("notes.txt");
+            File* notes = playerDir->getElement("home")->getElement("notes")->openFile("notes.txt");
             notes->append(args[1]);
         }
 };
