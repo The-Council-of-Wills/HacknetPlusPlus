@@ -10,6 +10,12 @@ class Folder : public FileSystemElement {
         std::map<std::string, FileSystemElement*> children;
         sol::state* lua;
 
+        FileSystemElement* getElement(std::string elementName) {
+            if (children.count(elementName))
+                return children[elementName];
+            return nullptr;
+        }
+
     public:
         Folder(std::string folderName) : FileSystemElement(folderName) {  }
 
@@ -28,9 +34,9 @@ class Folder : public FileSystemElement {
             folderType.set_function("getTree", sol::resolve<std::string()>(&Folder::getTree));
             folderType.set_function("getType", &Folder::getType);
             folderType.set_function("setParent", &Folder::setParent);
-            folderType.set_function("openFolder", &Folder::getOrCreateFolder);
+            folderType.set_function("openFolder", &Folder::openFolder);
             folderType.set_function("openFile", &Folder::openFile);
-            folderType.set_function("getElement", &Folder::getElementObject);
+            folderType.set_function("getElement", &Folder::evaluatePathObject);
             folderType.set_function("getChildren", &Folder::getChildrenTable);
 
             folderType.set_function("getFiles", &Folder::getFilesTable);
@@ -44,27 +50,8 @@ class Folder : public FileSystemElement {
             return FileSystemType::Folder;
         }
 
-        FileSystemElement* getElement(std::string elementName) {
-            if (children.count(elementName))
-                return children[elementName];
-            return nullptr;
-        }
-
-        sol::object getElementObject(sol::this_state s, std::string elementName) {
-            FileSystemElement* element = getElement(elementName);
-
-            if (element == nullptr)
-                return sol::nil;
-            else if (element->getType() == FileSystemType::File)
-                return sol::make_object(s, (File*)element);
-            else if (element->getType() == FileSystemType::Folder)
-                return sol::make_object(s, (Folder*)element);
-            else
-                return sol::nil;
-        }
-
-        Folder* getOrCreateFolder(std::string elementName) {
-            Folder* temp = (Folder*)getElement(elementName);
+        Folder* openFolder(std::string elementName) {
+            Folder* temp = (Folder*) evaluatePath(elementName);
             if (temp != nullptr) return temp;
             temp = new Folder(elementName);
             insertElement(temp);
@@ -72,7 +59,7 @@ class Folder : public FileSystemElement {
         }
 
         File* openFile(std::string elementName) {
-            File* temp = (File*)getElement(elementName);
+            File* temp = (File*) evaluatePath(elementName);
             if (temp != nullptr) return temp;
             temp = new File(elementName);
             insertElement(temp);
@@ -105,14 +92,6 @@ class Folder : public FileSystemElement {
             return sol::as_table(getFiles());
         }
 
-        /*
-        File* getFile(std::string name) {
-            if (children[name]->getType() == FileSystemType::File)
-                return (File*)children[name];
-            else return nullptr;
-        }
-        */
-
         std::vector<Folder*> getFolders() {
             std::vector<Folder*> ret;
 
@@ -126,14 +105,6 @@ class Folder : public FileSystemElement {
         sol::as_table_t<std::vector<Folder*>> getFoldersTable() {
             return sol::as_table(getFolders());
         }
-
-        /*
-        Folder* getFolder(std::string name) {
-            if (children[name]->getType() == FileSystemType::Folder)
-                return (Folder*)children[name];
-            else return nullptr;
-        }
-        */
 
         std::string listChildren() {
             std::string ans;
@@ -204,39 +175,60 @@ class Folder : public FileSystemElement {
             children.erase(elementName);
         }
 
-        static FileSystemElement* evaluatePath(Folder* curr, std::string path) {
-            if (path[0] == '/') {
-                while (curr->getParent() != nullptr)
-                    curr = (Folder*) curr->getParent();
-            }
+        FileSystemElement* evaluatePath(std::vector<std::string> path) {
+            if (!path.empty()) {
+                std::string pathFront = path.front();
+                path.erase(path.begin());
 
-            std::stringstream pathStream(path);
-            std::string buffer;
-            bool foundFile = false;
-            while (getline(pathStream, buffer, '/')) {
-                if (buffer.empty() || buffer == ".") continue;
-                if (curr == nullptr) return nullptr;
-                if (curr->getType() == FileSystemType::Folder) {
-                    if (buffer == "..") {
-                        curr = (Folder*) curr->getParent();
-                    }
-                    else {
-                        Folder* currFolder = (Folder *)curr;
-                        curr = (Folder*) currFolder->getElement(buffer);
-                    }
-                }
-                else if (foundFile) {
+                if ((pathFront == "" || pathFront == "..") && this->getParent() != nullptr)
+                    return ((Folder*) this->getParent())->evaluatePath(path);
+                else if (pathFront == "." || pathFront == "" || pathFront == "..")
+                    return this->evaluatePath(path);
+                else {
+                    FileSystemElement* element = getElement(pathFront);
+
+                    if (element != nullptr)
+                        if (element->getType() == FileSystemType::Folder)
+                            return ((Folder*)element)->evaluatePath(path);
+                        else if (element->getType() == FileSystemType::File)
+                            return element;
+
                     return nullptr;
                 }
-                else {
-                    foundFile = true;
-                }
             }
-
-            return curr;
+            else return this;
         }
 
         FileSystemElement* evaluatePath(std::string path) {
-            return Folder::evaluatePath(this, path);
+            std::vector<std::string> pathVector;
+            std::string actual = "";
+
+            for (char c : path) {
+                if (c != '/') {
+                    actual += c;
+                }
+                else {
+                    pathVector.push_back(actual);
+                    actual = "";
+                }
+            }
+
+            if (actual != "")
+                pathVector.push_back(actual);
+
+            return evaluatePath(pathVector);
         }
+
+        sol::object evaluatePathObject(sol::this_state s, std::string path) {
+            FileSystemElement* element = evaluatePath(path);
+
+            if (element != nullptr)
+                if (element->getType() == FileSystemType::File)
+                    return sol::make_object(s, (File*)element);
+                else if (element->getType() == FileSystemType::Folder)
+                    return sol::make_object(s, (Folder*)element);
+
+            return sol::nil;
+        }
+
 };

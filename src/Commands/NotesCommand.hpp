@@ -11,6 +11,6 @@ class NotesCommand : public Command {
             playerDir = playerDir->getOrCreateFolder("notes");
             
             File* notes = playerDir->openFile("notes.txt");
-            std::cout << notes->getContents() << '\n';
+            std::cout << notes->getContent() << '\n';
        }
 };

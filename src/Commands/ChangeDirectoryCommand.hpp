@@ -9,7 +9,7 @@ class ChangeDirectoryCommand : public Command {
 
             std::string newDirectory = args[1];
             Folder* dir = GameManager::getInstance()->getDirectory();
-            Folder* elem = (Folder*) Folder::evaluatePath(dir, newDirectory);
+            Folder* elem = (Folder*) dir->evaluatePath(newDirectory);
 
             if (elem != nullptr && elem->getType() == FileSystemType::Folder) {
                 GameManager::getInstance()->setDirectory(elem);

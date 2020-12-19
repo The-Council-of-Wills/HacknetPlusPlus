@@ -12,7 +12,6 @@ class FileSystemElement {
     protected:
         std::string name;
         FileSystemElement* parent = nullptr;
-
         FileSystemElement(std::string name) : name{name} { }
     public:
         virtual ~FileSystemElement() {  }

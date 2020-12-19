@@ -6,16 +6,16 @@ class AppendCommand : public Command {
         void run(const std::vector<std::string> &args) override {
             if (!hasExactArguments(3, args)) return;
 
-            std::string filename = args[1], contents = args[2];
+            std::string filename = args[1], content = args[2];
             Folder* dir = GameManager::getInstance()->getDirectory();
-            FileSystemElement* elem = evaluatePath(dir, filename);
+            FileSystemElement* elem = dir->evaluatePath(filename);
             
             if (elem == nullptr) {
                 std::cout << "File not found. Please try again.\n";
             }
             else if (elem->getType() == FileSystemType::File) {
                 File* file = (File *)elem;
-                file->append(contents);
+                file->append(content);
             }
             else if (elem->getType() == FileSystemType::Executable) {
                 std::cout << "Error: can't append to a binary file.\n";

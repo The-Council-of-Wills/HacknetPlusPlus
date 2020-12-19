@@ -16,7 +16,9 @@
 #include "TouchCommand.hpp"
 #include "AppendCommand.hpp"
 #include "ProbeCommand.hpp"
+*/
 #include "HelpCommand.hpp"
+/*
 #include "NotesCommand.hpp"
 #include "AddNoteCommand.hpp"
 */

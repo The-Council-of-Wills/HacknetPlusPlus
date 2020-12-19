@@ -3,11 +3,11 @@
 
 class File : public FileSystemElement {
     private:
-        std::string contents;
+        std::string content;
     public:
         File(std::string filename) : FileSystemElement(filename) {  }
-        File(std::string filename, std::string fileContents) : FileSystemElement(filename) {
-            contents = fileContents;
+        File(std::string filename, std::string fileContent) : FileSystemElement(filename) {
+            content = fileContent;
         }
 
         static void registerUsertype(sol::state& lua) {
@@ -15,7 +15,7 @@ class File : public FileSystemElement {
 
             fileType.set_function("getType", &File::getType);
             fileType.set_function("setParent", &File::setParent);
-            fileType.set_function("getContents", &File::getContents);
+            fileType.set_function("getContent", &File::getContent);
             fileType.set_function("append", &File::append);
         }
 
@@ -23,12 +23,12 @@ class File : public FileSystemElement {
             return FileSystemType::File;
         }
 
-        std::string getContents() {
-            return contents;
+        std::string getContent() {
+            return content;
         }
 
         void append(std::string text) {
-            contents += text;
+            content += text;
         }
         
 };

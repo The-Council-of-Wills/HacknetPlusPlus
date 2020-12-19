@@ -49,7 +49,7 @@ class CommandManager {
 
 void CommandManager::updateExecutables() {
     Folder* playerRoot = GameManager::getInstance()->getPlayerDir();
-    Folder* binFolder = playerRoot->getOrCreateFolder("bin");
+    Folder* binFolder = playerRoot->openFolder("bin");
     
     executables.clear();
     //Note: we dont erase the Command* because, if the file was deleted, the Command was deleted there,
@@ -68,9 +68,9 @@ CommandManager::CommandManager() : game{ GameManager::getInstance() } {
     commands["whoami"]      = new SelfCommand;
     commands["connect"]     = new ConnectCommand;
     commands["whereami"]    = new WhereCommand;
-    */
     commands["cd"]          = new ChangeDirectoryCommand;
-    //commands["tree"]        = new TreeCommand;
+    commands["tree"]        = new TreeCommand;
+    */
     commands["ls"]          = new ListDirectoryCommand;
     commands["cat"]         = new CatCommand;
     commands["mkdir"]       = new MakeDirCommand;
@@ -79,7 +79,9 @@ CommandManager::CommandManager() : game{ GameManager::getInstance() } {
     commands["touch"]       = new TouchCommand;
     commands["append"]      = new AppendCommand;
     commands["probe"]       = new ProbeCommand;
+    */
     commands["help"]        = new HelpCommand;
+    /*
     commands["notes"]       = new NotesCommand;
     commands["addNote"]     = new AddNoteCommand;
     */
