@@ -36,7 +36,8 @@ class Computer {
             lua.set_function("getSystemVariable", &Computer::getSystemVariable, this);
             lua.set_function("setSystemVariable", &Computer::setSystemVariable, this);
             lua.set_function("getFileSystem", &Computer::getFileSystem, this);
-            lua.set_function("getcwd", &Computer::getDirectory, this); // FIX
+            lua.set_function("getcwd", &Computer::getDirectory, this);
+            lua.set_function("setcwd", &Computer::setDirectory, this);
 
             /*
             Usertype registration
