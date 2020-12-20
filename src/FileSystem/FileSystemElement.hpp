@@ -26,6 +26,7 @@ class FileSystemElement {
             }
             return ans + toString();
         };
+
         virtual FileSystemType getType() = 0;
 
         FileSystemElement* getParent() {

@@ -171,8 +171,17 @@ class Folder : public FileSystemElement {
         }
 
         void deleteElement(std::string elementName) {
-            delete children[elementName];
-            children.erase(elementName);
+            if (children.count(elementName)) {
+                delete children[elementName];
+                children.erase(elementName);
+            }
+        }
+
+        void deleteElement(FileSystemElement* element) {
+            for (std::pair<std::string, FileSystemElement*> p : children) {
+                if (p.second == element)
+                    deleteElement(p.first);
+            }
         }
 
         FileSystemElement* evaluatePath(std::vector<std::string> path) {
