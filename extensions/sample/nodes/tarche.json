@@ -23,29 +23,26 @@
         },
         "/bin": {
             "hola": {
-                "executable": true,
                 "script": "scripts/hello.lua"
             },
-			"JunkGenerator.exe": {
-				"executable": true,
-				"script": "scripts/junk_generator.lua"
-			},
-			"tree": {
-				"executable": true,
-				"script": "scripts/tree.lua"
-			},
-			"notes": {
-				"executable": true,
-				"script": "scripts/notes.lua"
-			},
-			"cd": {
-				"executable": true,
-				"script": "scripts/cd.lua"
-			},
-			"append": {
-				"executable": true,
-				"script": "scripts/append.lua"
-			}
+            "JunkGenerator.exe": {
+                "script": "scripts/junk_generator.lua"
+            },
+            "tree": {
+                "script": "scripts/tree.lua"
+            },
+            "notes": {
+                "script": "scripts/notes.lua"
+            },
+            "cd": {
+                "script": "scripts/cd.lua"
+            },
+            "append": {
+                "script": "scripts/append.lua"
+            },
+            "rm": {
+                "script": "scripts/rm.lua"
+            }
         },
         "/sys": {
             "x-server.sys": {

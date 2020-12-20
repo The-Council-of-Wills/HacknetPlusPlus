@@ -186,7 +186,7 @@ void GameManager::buildFileSystem(const json &data, Folder *f) {
         }
         
         else {
-            if (value.contains("executable") && value["executable"]) {
+            if (value.contains("script")) {
                 std::string filename = value["script"];
                 Executable *e = new Executable(name, extensionPath + '/' + filename);
                 f->insertElement(e);

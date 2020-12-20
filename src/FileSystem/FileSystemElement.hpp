@@ -15,14 +15,15 @@ class FileSystemElement {
         FileSystemElement(std::string name) : name{name} { }
 
         void destroy() {
-            delete this;
-        }
-        
-    public:
-        virtual ~FileSystemElement() { 
-            parent->deleteElement(name);
+            if (parent != nullptr)
+                parent->deleteElement(name);
+            else
+                delete this;
         }
 
+    public:
+        virtual ~FileSystemElement() { }
+        
         virtual std::string getTree(std::string prefix, bool last) {
             std::string ans = prefix;
             if (last) {
@@ -36,7 +37,7 @@ class FileSystemElement {
 
         virtual FileSystemType getType() = 0;
 
-        virtual void deleteElement(std::string elementName) { }
+        virtual void deleteElement(std::string elementName) { return; }
 
         FileSystemElement* getParent() {
             return parent;
