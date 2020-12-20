@@ -8,6 +8,7 @@
 #include "Commands/CommandManager.hpp"
 #include "FileSystem/FileSystemImport.hpp"
 #include "Computer.hpp"
+#include "SDL.h"
 
 void startupText();
 void parseArgs(std::string userInput, std::vector<std::string> &out);
