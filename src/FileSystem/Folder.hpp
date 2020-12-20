@@ -19,7 +19,7 @@ class Folder : public FileSystemElement {
     public:
         Folder(std::string folderName) : FileSystemElement(folderName) {  }
 
-        ~Folder() {
+        ~Folder() override {
             for (auto c : children) {
                 delete c.second;
             }
@@ -44,6 +44,8 @@ class Folder : public FileSystemElement {
 
             folderType.set_function("getFolders", &Folder::getFoldersTable);
             //folderType.set_function("getFile", &Folder::getFolder);
+
+            folderType.set_function("delete", &Folder::destroy);
         }
 
         FileSystemType getType() {
@@ -170,17 +172,11 @@ class Folder : public FileSystemElement {
             elem->setParent(this);
         }
 
-        void deleteElement(std::string elementName) {
+        void deleteElement(std::string elementName) override {
             if (children.count(elementName)) {
-                delete children[elementName];
+                if (children[elementName] != nullptr)
+                    delete children[elementName];
                 children.erase(elementName);
-            }
-        }
-
-        void deleteElement(FileSystemElement* element) {
-            for (std::pair<std::string, FileSystemElement*> p : children) {
-                if (p.second == element)
-                    deleteElement(p.first);
             }
         }
 

@@ -17,6 +17,8 @@ class File : public FileSystemElement {
             fileType.set_function("setParent", &File::setParent);
             fileType.set_function("getContent", &File::getContent);
             fileType.set_function("append", &File::append);
+
+            fileType.set_function("delete", &File::destroy);
         }
 
         FileSystemType getType() {
@@ -30,5 +32,4 @@ class File : public FileSystemElement {
         void append(std::string text) {
             content += text;
         }
-        
 };

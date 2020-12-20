@@ -13,8 +13,15 @@ class FileSystemElement {
         std::string name;
         FileSystemElement* parent = nullptr;
         FileSystemElement(std::string name) : name{name} { }
+
+        void destroy() {
+            delete this;
+        }
+        
     public:
-        virtual ~FileSystemElement() {  }
+        virtual ~FileSystemElement() { 
+            parent->deleteElement(name);
+        }
 
         virtual std::string getTree(std::string prefix, bool last) {
             std::string ans = prefix;
@@ -28,6 +35,8 @@ class FileSystemElement {
         };
 
         virtual FileSystemType getType() = 0;
+
+        virtual void deleteElement(std::string elementName) { }
 
         FileSystemElement* getParent() {
             return parent;
@@ -59,5 +68,4 @@ class FileSystemElement {
         std::string toString() {
             return name;
         }
-
 };
