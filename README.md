@@ -8,3 +8,6 @@ ______
 ### Compilation: 
 
 For compiling use the provided cmake.
+External dependencies:
+- SDL2
+- SDL_ttf 2.0
