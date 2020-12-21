@@ -57,6 +57,7 @@ class Computer {
 
             File::registerUsertype(lua);
             Folder::registerUsertype(lua);
+            Executable::registerUsertype(lua);
         }
 
         ~Computer() {

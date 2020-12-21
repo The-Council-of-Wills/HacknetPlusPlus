@@ -84,6 +84,6 @@ CommandManager::CommandManager() : game{ GameManager::getInstance() } {
     /*
     commands["notes"]       = new NotesCommand;
     commands["addNote"]     = new AddNoteCommand;
-    */
     commands["rm"]          = new RemoveCommand;
+    */
 }

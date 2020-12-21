@@ -11,8 +11,11 @@ class File : public FileSystemElement {
         }
 
         static void registerUsertype(sol::state& lua) {
-            sol::usertype<File> fileType = lua.new_usertype<File>("File");
+            sol::usertype<File> fileType = lua.new_usertype<File>("File",
+                sol::constructors<File(std::string), File(std::string, std::string)>(),
+                sol::base_classes, sol::bases<FileSystemElement>());
 
+            fileType.set_function("getName", &File::getName);
             fileType.set_function("getType", &File::getType);
             fileType.set_function("setParent", &File::setParent);
             fileType.set_function("getContent", &File::getContent);

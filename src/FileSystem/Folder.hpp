@@ -4,6 +4,7 @@
 #include <map>
 #include "FileSystemElement.hpp"
 #include "File.hpp"
+#include "Executable.hpp"
 
 class Folder : public FileSystemElement {
     private:
@@ -26,11 +27,11 @@ class Folder : public FileSystemElement {
         }
 
         static void registerUsertype(sol::state& lua) {
-
             sol::usertype<Folder> folderType = lua.new_usertype<Folder>("Folder",
                 sol::constructors<Folder(std::string)>(),
                 sol::base_classes, sol::bases<FileSystemElement>());
 
+            folderType.set_function("getName", &Folder::getName);
             folderType.set_function("getTree", sol::resolve<std::string()>(&Folder::getTree));
             folderType.set_function("getType", &Folder::getType);
             folderType.set_function("setParent", &Folder::setParent);
@@ -195,7 +196,7 @@ class Folder : public FileSystemElement {
                     if (element != nullptr)
                         if (element->getType() == FileSystemType::Folder)
                             return ((Folder*)element)->evaluatePath(path);
-                        else if (element->getType() == FileSystemType::File)
+                        else // WARNING: if another FileSystemElement class is added, this could lead to errors.
                             return element;
 
                     return nullptr;
@@ -232,6 +233,8 @@ class Folder : public FileSystemElement {
                     return sol::make_object(s, (File*)element);
                 else if (element->getType() == FileSystemType::Folder)
                     return sol::make_object(s, (Folder*)element);
+                else if (element->getType() == FileSystemType::Executable)
+                    return sol::make_object(s, (Executable*)element);
 
             return sol::nil;
         }

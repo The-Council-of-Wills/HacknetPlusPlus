@@ -42,7 +42,13 @@
             },
             "rm": {
                 "script": "scripts/rm.lua"
-            }
+            },
+			"cat": {
+				"script": "scripts/cat.lua"
+			},
+			"touch": {
+				"script": "scripts/touch.lua"
+			}
         },
         "/sys": {
             "x-server.sys": {
