@@ -1,5 +1,8 @@
+#pragma once
 #include <iostream>
-#include <queue>
+#include <chrono>
+#include <thread>
+#include <deque>
 #include <string>
 #include <sstream>
 #include <vector>
@@ -10,12 +13,17 @@
 
 class Game {
     private:
-        static std::queue<std::string> printQueue;
+        const int FONT_SIZE = 16;
+        static std::deque<std::string> printQueue;
 
         SDL_Window* window;
         SDL_Renderer* renderer;
 
         TTF_Font* font;
+
+        int width;
+        int height;
+        int lineAmount;
 
         bool isRunning;
         int bufIndex;
@@ -37,11 +45,11 @@ class Game {
 
             window = SDL_CreateWindow(
                 "hacknet++",
-                100,
-                100,
+                SDL_WINDOWPOS_CENTERED,
+                SDL_WINDOWPOS_CENTERED,
                 1024,
                 768,
-                0
+                SDL_WINDOW_RESIZABLE
             );
 
             renderer = SDL_CreateRenderer(
@@ -50,7 +58,7 @@ class Game {
                 SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
             );
 
-            font = TTF_OpenFont(GameManager::getResource("assets/SourceCodePro-Regular.ttf").c_str(), 24);
+            font = TTF_OpenFont(GameManager::getResource("assets/SourceCodePro-Regular.ttf").c_str(), FONT_SIZE);
             if (!font) {
                 std::cerr << "Failed to load font: " << TTF_GetError() << '\n';
             }
@@ -70,11 +78,35 @@ class Game {
             delete gameManager;
         }
 
+        static void startText() {
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+            std::ifstream bannerStream(GameManager::getResource("assets/banner"));
+
+            if (bannerStream.is_open()) {
+                for (std::string buffer; getline(bannerStream, buffer);) {
+                    Game::print(buffer);
+                    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                }
+
+                bannerStream.close();
+                Game::print("\n\n");
+                std::this_thread::sleep_for(std::chrono::milliseconds(500));
+            }
+
+            Game::print("Enter 'help' for a list of commands");
+        }
+
         void run() {
+            std::thread t1(startText);
             while (isRunning) {
                 processInput();
                 updateGame();
                 renderScreen();
+
+                width = SDL_GetWindowSurface(window)->w;
+                height = SDL_GetWindowSurface(window)->h;
+
+                lineAmount = (int)(height / FONT_SIZE) - 3;
 
                 while(!SDL_TICKS_PASSED(SDL_GetTicks(), tickCount + 16));
                 tickCount = SDL_GetTicks();
@@ -82,7 +114,10 @@ class Game {
         }
 
         static void print(std::string s) {
-            printQueue.push(s);
+            std::stringstream str(s);
+            for (std::string buf; getline(str, buf);) {
+                printQueue.push_back(buf);
+            }
         }
     
     private:
@@ -107,6 +142,7 @@ class Game {
             switch (k) {
                 case SDLK_RETURN:
                     userInput = inputBuffer;
+                    print(userInput);
                     inputBuffer = "";
                     bufIndex = 0;
                     break;
@@ -136,18 +172,36 @@ class Game {
                 commandManager.processCommand(args);
                 userInput = "";
             }
+
+            while (printQueue.size() > lineAmount) printQueue.pop_front();
         }
 
         void renderScreen() {
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
             SDL_RenderClear(renderer);
 
-            displayText((">" + inputBuffer), 100, 100);
+            SDL_SetRenderDrawColor(renderer, 0, 255, 0, 128);
+            SDL_Rect border = {
+                FONT_SIZE,
+                FONT_SIZE,
+                width - 2 * FONT_SIZE,
+                height - 2 * FONT_SIZE
+            };
+            SDL_RenderDrawRect(renderer, &border);
+
+            int counter = 1;
+            for (auto a : printQueue) {
+                displayText(a, 2 * FONT_SIZE, counter * FONT_SIZE);
+                counter++;
+            }
+            
+            displayText((">" + inputBuffer), 2 * FONT_SIZE, height - 3 * FONT_SIZE);
 
             SDL_RenderPresent(renderer);
         }
 
         void displayText(std::string s, int x, int y) {
+            if (s.empty()) s = " ";
             SDL_Surface* text = TTF_RenderText_Solid(font, s.c_str(), {255, 255, 255});
             SDL_Texture* text_texture = SDL_CreateTextureFromSurface(renderer, text);
             SDL_Rect destination = {
@@ -188,3 +242,5 @@ class Game {
             if (buffer != "") out.push_back(buffer);
         }
 };
+
+std::deque<std::string> Game::printQueue = {};
