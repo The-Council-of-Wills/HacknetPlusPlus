@@ -191,20 +191,22 @@ class Game {
 
             SDL_SetRenderDrawColor(renderer, 0, 255, 0, 128);
             SDL_Rect border = {
-                FONT_SIZE,
-                FONT_SIZE,
+                fontWidth,
+                fontHeight,
                 width - 2 * fontWidth,
                 height - 2 * fontHeight
             };
             SDL_RenderDrawRect(renderer, &border);
 
-            int counter = 1;
+            std::string out = "";
             for (auto a : printQueue) {
-                displayText(a, 2 * fontWidth, counter * fontHeight);
-                counter++;
+                out += a + '\n';
             }
             
-            displayText((">" + inputBuffer), 2 * fontWidth, height - 3 * fontHeight);
+            displayText(out, 2 * fontWidth, fontHeight);
+
+            int offset = 2 + (int)(inputBuffer.size() / wrapLength);
+            displayText((">" + inputBuffer), 2 * fontWidth, height - offset * fontHeight);
 
             SDL_RenderPresent(renderer);
         }
