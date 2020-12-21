@@ -23,7 +23,10 @@ class Game {
 
         int width;
         int height;
+        int fontWidth;
+        int fontHeight;
         int lineAmount;
+        int wrapLength;
 
         bool isRunning;
         int bufIndex;
@@ -66,6 +69,10 @@ class Game {
             SDL_StartTextInput();
             tickCount = SDL_GetTicks();
 
+            SDL_Surface* text = TTF_RenderText_Blended_Wrapped(font, " ", {255, 255, 255}, wrapLength);
+            fontWidth = text->w;
+            fontHeight = text->h;
+
             gameManager = GameManager::getInstance();
         }
 
@@ -106,7 +113,8 @@ class Game {
                 width = SDL_GetWindowSurface(window)->w;
                 height = SDL_GetWindowSurface(window)->h;
 
-                lineAmount = (int)(height / FONT_SIZE) - 3;
+                lineAmount = (int)(height / fontHeight) - 3;
+                wrapLength = (int)(width / fontWidth) - 4;
 
                 while(!SDL_TICKS_PASSED(SDL_GetTicks(), tickCount + 16));
                 tickCount = SDL_GetTicks();
@@ -185,25 +193,25 @@ class Game {
             SDL_Rect border = {
                 FONT_SIZE,
                 FONT_SIZE,
-                width - 2 * FONT_SIZE,
-                height - 2 * FONT_SIZE
+                width - 2 * fontWidth,
+                height - 2 * fontHeight
             };
             SDL_RenderDrawRect(renderer, &border);
 
             int counter = 1;
             for (auto a : printQueue) {
-                displayText(a, 2 * FONT_SIZE, counter * FONT_SIZE);
+                displayText(a, 2 * fontWidth, counter * fontHeight);
                 counter++;
             }
             
-            displayText((">" + inputBuffer), 2 * FONT_SIZE, height - 3 * FONT_SIZE);
+            displayText((">" + inputBuffer), 2 * fontWidth, height - 3 * fontHeight);
 
             SDL_RenderPresent(renderer);
         }
 
         void displayText(std::string s, int x, int y) {
             if (s.empty()) s = " ";
-            SDL_Surface* text = TTF_RenderText_Solid(font, s.c_str(), {255, 255, 255});
+            SDL_Surface* text = TTF_RenderText_Blended_Wrapped(font, s.c_str(), {255, 255, 255}, wrapLength * fontWidth);
             SDL_Texture* text_texture = SDL_CreateTextureFromSurface(renderer, text);
             SDL_Rect destination = {
                 x, y, text->w, text->h
