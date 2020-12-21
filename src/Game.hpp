@@ -111,6 +111,7 @@ class Game {
                 while(!SDL_TICKS_PASSED(SDL_GetTicks(), tickCount + 16));
                 tickCount = SDL_GetTicks();
             }
+            t1.join();
         }
 
         static void print(std::string s) {
