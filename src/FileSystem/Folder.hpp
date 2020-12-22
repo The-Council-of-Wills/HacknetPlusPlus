@@ -143,12 +143,12 @@ class Folder : public FileSystemElement {
             std::string ans = prefix;
             std::string newPrefix = prefix;
             if (last) {
-                ans += u8"└── ";
+                ans += "\\-- ";
                 prefix += "    ";
             }
             else {
-                ans += u8"├── ";
-                prefix += u8"│   ";
+                ans += "|-- ";
+                prefix += "|   ";
             }
 
             ans += getName();

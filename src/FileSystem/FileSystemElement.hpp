@@ -27,10 +27,10 @@ class FileSystemElement {
         virtual std::string getTree(std::string prefix, bool last) {
             std::string ans = prefix;
             if (last) {
-                ans += u8"└── ";
+                ans += "\\-- ";
             }
             else {
-                ans += u8"├── ";
+                ans += u8"|-- ";
             }
             return ans + toString();
         };
