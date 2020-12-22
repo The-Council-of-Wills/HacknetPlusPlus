@@ -22,10 +22,33 @@
 
         },
         "/bin": {
-            "SSHOverload.exe": {
-                "executable": true,
+            "hola": {
                 "script": "scripts/hello.lua"
-            }
+            },
+            "JunkGenerator.exe": {
+                "script": "scripts/junk_generator.lua"
+            },
+            "tree": {
+                "script": "scripts/tree.lua"
+            },
+            "notes": {
+                "script": "scripts/notes.lua"
+            },
+            "cd": {
+                "script": "scripts/cd.lua"
+            },
+            "append": {
+                "script": "scripts/append.lua"
+            },
+            "rm": {
+                "script": "scripts/rm.lua"
+            },
+			"cat": {
+				"script": "scripts/cat.lua"
+			},
+			"touch": {
+				"script": "scripts/touch.lua"
+			}
         },
         "/sys": {
             "x-server.sys": {

@@ -6,8 +6,8 @@ class RemoveCommand : public Command {
         void run(const std::vector<std::string> &args) override {
             if (!hasExactArguments(2, args)) return;
             
-            Folder* directory = GameManager::getInstance()->getDirectory();
-            FileSystemElement* elem = evaluatePath(directory, args[1]);
+            Folder* dir = GameManager::getInstance()->getDirectory();
+            FileSystemElement* elem = dir->evaluatePath(args[1]);
             
             if (elem == nullptr) {
                 std::cout << "Error: file does not exist.\n";

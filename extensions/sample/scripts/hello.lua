@@ -1,1 +1,1 @@
-io.write("Hello, world!")
+print(getcwd():getName())

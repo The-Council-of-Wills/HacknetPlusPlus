@@ -4,6 +4,7 @@
 #include <set>
 #include "Security/SecuritySuite.hpp"
 #include "FileSystem/FileSystemImport.hpp"
+#include "lib/sol/sol.hpp"
 
 class Computer {
     private:
@@ -17,18 +18,46 @@ class Computer {
         Folder* root = new Folder("/");
         SecuritySuite security;
 
+        Folder* currentDirectory = root;
+
         sol::state lua;
 
         std::map<std::string, sol::object> systemVars;
     public:
-        Computer(std::string name, std::string id, std::string ip, int securityLevel) : 
-            name{name}, id{id}, ip{ip}, security(securityLevel)
+        Computer(std::string name, std::string id, std::string ip, int securityLevel) :
+            name { name }, id{ id }, ip{ ip }, security(securityLevel)
         {
             lua.open_libraries(sol::lib::base);
+            lua.open_libraries(sol::lib::string);
+            lua.open_libraries(sol::lib::math);
+            lua.open_libraries(sol::lib::table);
 
             //               |  function name   |      method definition      | instance
             lua.set_function("getSystemVariable", &Computer::getSystemVariable, this);
             lua.set_function("setSystemVariable", &Computer::setSystemVariable, this);
+            lua.set_function("getFileSystem", &Computer::getFileSystem, this);
+            lua.set_function("getcwd", &Computer::getDirectory, this);
+            lua.set_function("setcwd", &Computer::setDirectory, this);
+
+            /*
+            Usertype registration
+            Used for interacting with the API
+            in an OOP manner.
+
+            Example:
+            root = getFileSystem()
+            print(root:getTree())
+            */ 
+
+            sol::usertype<FileSystemElement> fsElementType = lua.new_usertype<FileSystemElement>("FileSystemElement");
+            fsElementType.set_function("getParent", &FileSystemElement::getParent);
+            fsElementType.set_function("getName", &FileSystemElement::getName);
+            fsElementType.set_function("toString", &FileSystemElement::toString);
+
+
+            File::registerUsertype(lua);
+            Folder::registerUsertype(lua);
+            Executable::registerUsertype(lua);
         }
 
         ~Computer() {
@@ -73,6 +102,14 @@ class Computer {
             }
 
             return res;
+        }
+
+        void setDirectory(Folder* dir) {
+            currentDirectory = dir;
+        }
+
+        Folder* getDirectory() {
+            return currentDirectory;
         }
 
         void run(Executable* exe, std::vector<std::string> args) {

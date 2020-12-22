@@ -1,30 +1,25 @@
 #pragma once
 #include "FileSystemElement.hpp"
-#include "../lib/sol/sol.hpp"
 
 class Executable : public FileSystemElement {
     std::string scriptName;
 
     public: 
         Executable(std::string name, std::string scriptName) : scriptName{ scriptName }, FileSystemElement(name) { }
+        
+        static void registerUsertype(sol::state& lua) {
+            sol::usertype<Executable> executableType = lua.new_usertype<Executable>("Executable",
+                //sol::constructors<Executable(std::string, std::string)>(), // May cause unwanted execution.
+                sol::base_classes, sol::bases<FileSystemElement>());
+
+            executableType.set_function("getName", &Executable::getName);
+            executableType.set_function("getType", &Executable::getType);
+            executableType.set_function("setParent", &Executable::setParent);
+
+            executableType.set_function("delete", &Executable::destroy);
+        }
 
         FileSystemType getType() { return FileSystemType::Executable; }
 
         std::string getScript() { return scriptName; }
-
-        /*
-        void run(sol::state* lua, std::vector<std::string> args) {
-            sol::load_result script = lua->load_file(scriptName);
-            sol::environment local(lua, sol::create, lua->globals());
-            sol::set_environment(, script);
-
-            if (!script.valid()) {
-                sol::error err = script;
-                std::cerr << "There was an error parsing file: " << scriptName << '\n';
-                std::cerr << err.what() << '\n';
-            }
-
-            script(args);
-        }
-        */
 };

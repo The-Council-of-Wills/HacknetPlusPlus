@@ -8,14 +8,14 @@ class CatCommand : public Command {
 
             std::string filename = args[1];
             Folder* dir = GameManager::getInstance()->getDirectory();
-            FileSystemElement* elem = evaluatePath(dir, filename);
+            FileSystemElement* elem = dir->evaluatePath(filename);
 
             if (elem == nullptr) {
                 std::cout << "File not found. Please try again.\n";
             }
             else if (elem->getType() == FileSystemType::File) {
                 File* file = (File *)elem;
-                std::cout << file->getContents() << '\n';
+                std::cout << file->getContent() << '\n';
             }
             else if (elem->getType() == FileSystemType::Executable) {
                 std::cout << "Can't open binary file.\n";
