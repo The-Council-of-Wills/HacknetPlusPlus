@@ -6,4 +6,8 @@ There isn't much going on yet, but feel free to check it out, and, if you feel l
 ______
 
 ### Compilation: 
-I, [tarche](https://github.com/lucastarche) personally compile it using g++ with std=c++11, but thanks to [Lucina](https://github.com/Lucina) now there is also a cmake file for your convinience. 
+
+For compiling use the provided cmake.
+External dependencies:
+- SDL2
+- SDL_ttf 2.0

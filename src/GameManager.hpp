@@ -3,10 +3,21 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-#include <filesystem>
 #include "lib/json.hpp"
 #include "Computer.hpp"
 #include "FileSystem/FileSystemImport.hpp"
+
+#if hp_experimental_filesystem
+#include <experimental/filesystem>
+#else
+#include <filesystem>
+#endif
+
+#if hp_experimental_filesystem
+namespace fs = std::experimental::filesystem;
+#else
+namespace fs = std::filesystem;
+#endif
 
 using json = nlohmann::json;
 namespace fs = std::filesystem;
@@ -14,6 +25,7 @@ namespace fs = std::filesystem;
 class GameManager {
     private:
         static GameManager* instance;
+        static fs::path* app_dir;
 
         std::string extensionPath;
 
@@ -51,8 +63,25 @@ class GameManager {
             }
             return instance;
         }
+  
+        static void setAppDirFromExe(const char* exe) {
+            // This is a hard guess. Just assume argv[0] is the right path.
+            app_dir = new fs::path(fs::path(exe).parent_path());
+        }
 
-        static void loadExtension(std::string extensionPath);
+        static fs::path* getAppDir() {
+            if(app_dir == nullptr) {
+                app_dir = new fs::path(".");
+            }
+
+            return app_dir;
+        }
+
+        static std::string getResource(const char* path) {
+            return (*getAppDir() / fs::path(path)).string();
+        }
+
+        static void loadExtension(std::string path);
 
         ~GameManager() {
             for (auto c : computerNetwork) {
@@ -108,6 +137,7 @@ class GameManager {
 };
 
 GameManager* GameManager::instance = nullptr;
+fs::path* GameManager::app_dir = nullptr;
 
 void GameManager::loadExtension(std::string extensionPath) {
     json extensionInfo;
