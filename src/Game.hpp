@@ -207,7 +207,8 @@ class Game {
             displayText(out, 2 * fontWidth, fontHeight);
 
             int offset = 2 + (int)(inputBuffer.size() / wrapLength);
-            displayText((">" + inputBuffer), 2 * fontWidth, height - offset * fontHeight);
+            std::string currDir = gameManager->getDirectory()->getPath() + ">";
+            displayText((currDir + inputBuffer), 2 * fontWidth, height - offset * fontHeight);
 
             SDL_RenderPresent(renderer);
         }
