@@ -28,6 +28,13 @@ if(WIN32)
         set(HP_LIBS_BINARIES ${PROJECT_SOURCE_DIR}/ext_libs/lua54.dll)
 endif()
 
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" AND UNIX)
+        if(NOT APPLE)
+                target_link_libraries(${PROJECT_NAME} stdc++fs)
+                target_compile_definitions(${PROJECT_NAME} PUBLIC hp_experimental_filesystem)
+        endif()
+endif()
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 

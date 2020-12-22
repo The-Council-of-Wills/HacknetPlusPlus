@@ -1,8 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <thread>
-#include <chrono>
 #include "Game.hpp"
 #include "FileSystem/FileSystemImport.hpp"
 #include "Computer.hpp"

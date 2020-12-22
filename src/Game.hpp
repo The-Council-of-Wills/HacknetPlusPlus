@@ -72,6 +72,7 @@ class Game {
             SDL_Surface* text = TTF_RenderText_Blended_Wrapped(font, " ", {255, 255, 255}, wrapLength);
             fontWidth = text->w;
             fontHeight = text->h;
+            SDL_FreeSurface(text);
 
             gameManager = GameManager::getInstance();
         }

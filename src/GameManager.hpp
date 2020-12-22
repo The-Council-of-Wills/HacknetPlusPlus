@@ -3,10 +3,21 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-#include <filesystem>
 #include "lib/json.hpp"
 #include "Computer.hpp"
 #include "FileSystem/FileSystemImport.hpp"
+
+#if hp_experimental_filesystem
+#include <experimental/filesystem>
+#else
+#include <filesystem>
+#endif
+
+#if hp_experimental_filesystem
+namespace fs = std::experimental::filesystem;
+#else
+namespace fs = std::filesystem;
+#endif
 
 using json = nlohmann::json;
 namespace fs = std::filesystem;
