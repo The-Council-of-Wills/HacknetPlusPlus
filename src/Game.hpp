@@ -10,11 +10,11 @@
 #include "SDL_ttf.h"
 #include "GameManager.hpp"
 #include "Commands/CommandManager.hpp"
+#include "Printer.hpp"
 
 class Game {
     private:
         const int FONT_SIZE = 16;
-        static std::deque<std::string> printQueue;
 
         SDL_Window* window;
         SDL_Renderer* renderer;
@@ -92,20 +92,21 @@ class Game {
 
             if (bannerStream.is_open()) {
                 for (std::string buffer; getline(bannerStream, buffer);) {
-                    Game::print(buffer);
+                    Printer::print(buffer);
                     std::this_thread::sleep_for(std::chrono::milliseconds(100));
                 }
 
                 bannerStream.close();
-                Game::print("\n\n");
+                Printer::print("\n\n");
                 std::this_thread::sleep_for(std::chrono::milliseconds(500));
             }
 
-            Game::print("Enter 'help' for a list of commands");
+            Printer::print("Enter 'help' for a list of commands");
         }
 
         void run() {
             std::thread t1(startText);
+            t1.detach();
             while (isRunning) {
                 processInput();
                 updateGame();
@@ -120,16 +121,7 @@ class Game {
                 while(!SDL_TICKS_PASSED(SDL_GetTicks(), tickCount + 16));
                 tickCount = SDL_GetTicks();
             }
-            t1.join();
         }
-
-        static void print(std::string s) {
-            std::stringstream str(s);
-            for (std::string buf; getline(str, buf);) {
-                printQueue.push_back(buf);
-            }
-        }
-    
     private:
         void processInput() {
             for (SDL_Event event; SDL_PollEvent(&event);) {
@@ -152,7 +144,7 @@ class Game {
             switch (k) {
                 case SDLK_RETURN:
                     userInput = inputBuffer;
-                    print(userInput);
+                    Printer::print(userInput);
                     inputBuffer = "";
                     bufIndex = 0;
                     break;
@@ -183,7 +175,7 @@ class Game {
                 userInput = "";
             }
 
-            while (printQueue.size() > lineAmount) printQueue.pop_front();
+            Printer::resize(lineAmount);
         }
 
         void renderScreen() {
@@ -200,7 +192,7 @@ class Game {
             SDL_RenderDrawRect(renderer, &border);
 
             std::string out = "";
-            for (auto a : printQueue) {
+            for (auto a : Printer::getDeque()) {
                 out += a + '\n';
             }
             
@@ -255,5 +247,3 @@ class Game {
             if (buffer != "") out.push_back(buffer);
         }
 };
-
-std::deque<std::string> Game::printQueue = {};
