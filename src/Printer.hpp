@@ -2,6 +2,7 @@
 #include <deque>
 #include <string>
 #include <sstream>
+#include "lib/sol/sol.hpp"
 
 class Printer {
     private:
@@ -13,6 +14,14 @@ class Printer {
             for (std::string buf; getline(str, buf);) {
                 printQueue.push_back(buf);
             }
+        }
+
+        static void print(sol::variadic_args va) {
+            std::string s;
+            for (auto v : va) {
+                s += v.as<std::string>() + ' ';
+            }
+            print(s);
         }
 
         static void resize(int n) {

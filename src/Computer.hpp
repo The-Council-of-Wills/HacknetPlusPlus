@@ -33,7 +33,7 @@ class Computer {
             lua.open_libraries(sol::lib::math);
             lua.open_libraries(sol::lib::table);
 
-            lua.set_function("print", &Printer::print);
+            lua.set_function("print", sol::resolve<sol::variadic_args>(&Printer::print));
 
             //               |  function name   |      method definition      | instance
             lua.set_function("getSystemVariable", &Computer::getSystemVariable, this);

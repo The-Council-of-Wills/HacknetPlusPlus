@@ -37,7 +37,6 @@ class CommandManager {
             }
             else if (executables.count(args[0])) {
                 game->getCurrentComputer()->run(executables[args[0]], args);
-                //executables[args[0]]->run(game->getCurrent()->getLua(), args);
             }
             else {
                 std::cout << "Unknown command." << '\n';
@@ -52,7 +51,7 @@ void CommandManager::updateExecutables() {
     Folder* binFolder = playerRoot->openFolder("bin");
     
     executables.clear();
-    //Note: we dont erase the Command* because, if the file was deleted, the Command was deleted there,
+    //Note: we dont delete the Executable pointers because, if the file was deleted, Executable was deleted there,
     //and if it wasnt, we will add the pointer back again.
 
     for (auto elem : binFolder->getChildren()) {
