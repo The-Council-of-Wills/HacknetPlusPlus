@@ -1,9 +1,9 @@
 #pragma once
-#include <iostream>
 #include <map>
 #include <string>
 #include <vector>
 #include "../GameManager.hpp"
+#include "../Printer.hpp"
 #include "CommandInclude.hpp"
 
 class CommandManager {
@@ -39,7 +39,7 @@ class CommandManager {
                 game->getCurrentComputer()->run(executables[args[0]], args);
             }
             else {
-                std::cout << "Unknown command." << '\n';
+                Printer::print("Unknown command.");
             }
         }
 
@@ -66,7 +66,6 @@ CommandManager::CommandManager() : game{ GameManager::getInstance() } {
     commands["whoami"]      = new SelfCommand;
     commands["connect"]     = new ConnectCommand;
     commands["whereami"]    = new WhereCommand;
-    commands["ls"]          = new ListDirectoryCommand;
     commands["mkdir"]       = new MakeDirCommand;
     commands["rmdir"]       = new RemoveDirCommand;
     commands["probe"]       = new ProbeCommand;

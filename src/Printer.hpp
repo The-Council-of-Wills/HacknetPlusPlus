@@ -24,6 +24,10 @@ class Printer {
             print(s);
         }
 
+        static void clear() {
+            printQueue.clear();
+        }
+
         static void resize(int n) {
             while (printQueue.size() > n) printQueue.pop_front();
         }

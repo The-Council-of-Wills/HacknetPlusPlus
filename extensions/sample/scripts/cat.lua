@@ -1,8 +1,8 @@
 local args = ...
 
 if args[2] then
-	local f = getcwd:getElement(args[2])
-	
+	local f = getcwd():getElement(args[2])
+
 	if f then
 		local content = f:getContent()
 		if content then

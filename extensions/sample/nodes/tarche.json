@@ -43,12 +43,18 @@
             "rm": {
                 "script": "scripts/rm.lua"
             },
-			"cat": {
-				"script": "scripts/cat.lua"
-			},
-			"touch": {
-				"script": "scripts/touch.lua"
-			}
+            "cat": {
+                "script": "scripts/cat.lua"
+            },
+            "touch": {
+                "script": "scripts/touch.lua"
+            },
+            "ls": {
+                "script": "scripts/ls.lua"
+            },
+            "clear": {
+                "script": "scripts/clear.lua"
+            }
         },
         "/sys": {
             "x-server.sys": {

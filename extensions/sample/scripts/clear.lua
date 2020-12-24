@@ -1,0 +1,3 @@
+local args = ...
+
+clearScreen()

@@ -4,7 +4,6 @@
 #include "SelfCommand.hpp"
 #include "ConnectCommand.hpp"
 #include "WhereCommand.hpp"
-#include "ListDirectoryCommand.hpp"
 #include "MakeDirCommand.hpp"
 #include "RemoveDirCommand.hpp"
 #include "ProbeCommand.hpp"

@@ -34,6 +34,7 @@ class Computer {
             lua.open_libraries(sol::lib::table);
 
             lua.set_function("print", sol::resolve<sol::variadic_args>(&Printer::print));
+            lua.set_function("clearScreen", &Printer::clear);
 
             //               |  function name   |      method definition      | instance
             lua.set_function("getSystemVariable", &Computer::getSystemVariable, this);

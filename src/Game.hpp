@@ -144,7 +144,7 @@ class Game {
             switch (k) {
                 case SDLK_RETURN:
                     userInput = inputBuffer;
-                    Printer::print(userInput);
+                    Printer::print(currentPath() + userInput);
                     inputBuffer = "";
                     bufIndex = 0;
                     break;
@@ -195,12 +195,10 @@ class Game {
             for (auto a : Printer::getDeque()) {
                 out += a + '\n';
             }
+
+            out += currentPath() + inputBuffer + '\n';
             
             displayText(out, 2 * fontWidth, fontHeight);
-
-            int offset = 2 + (int)(inputBuffer.size() / wrapLength);
-            std::string currDir = gameManager->getDirectory()->getPath() + ">";
-            displayText((currDir + inputBuffer), 2 * fontWidth, height - offset * fontHeight);
 
             SDL_RenderPresent(renderer);
         }
@@ -245,5 +243,9 @@ class Game {
             }
 
             if (buffer != "") out.push_back(buffer);
+        }
+
+        std::string currentPath() {
+            return gameManager->getDirectory()->getPath() + ">";
         }
 };
