@@ -6,11 +6,11 @@ class Command {
     protected:
         static bool hasExactArguments(int amount, const std::vector<std::string> &args) {
             if ((int)args.size() < amount) {
-                std::cout << "Missing arguments.\n";
+                Printer::print("Missing arguments.");
                 return false;
             }
-            else if ((int) args.size() > amount) {
-                std::cout << "Unexpected arguments.\n";
+            else if ((int)args.size() > amount) {
+                Printer::print("Unexpected arguments.");
                 return false;
             }
             return true;

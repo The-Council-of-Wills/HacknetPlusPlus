@@ -14,7 +14,7 @@ class HelpCommand : public Command {
             }
 
             for (std::string buf; getline(in, buf);) {
-                std::cout << buf << '\n';
+                Printer::print(buf);
             }
         }
 };

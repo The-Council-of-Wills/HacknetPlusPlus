@@ -13,7 +13,7 @@ class MakeDirCommand : public Command {
                 game->getDirectory()->insertElement(new Folder(args[1]));
             }
             else {
-                std::cout << "Can't create directory. Archive already exists.\n";
+                Printer::print("Can't create directory. Archive already exists.");
             }
         }
 };

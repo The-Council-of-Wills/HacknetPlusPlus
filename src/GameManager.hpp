@@ -6,21 +6,17 @@
 #include "lib/json.hpp"
 #include "Computer.hpp"
 #include "FileSystem/FileSystemImport.hpp"
+#include "Printer.hpp"
 
 #if hp_experimental_filesystem
 #include <experimental/filesystem>
-#else
-#include <filesystem>
-#endif
-
-#if hp_experimental_filesystem
 namespace fs = std::experimental::filesystem;
 #else
+#include <filesystem>
 namespace fs = std::filesystem;
 #endif
 
 using json = nlohmann::json;
-namespace fs = std::filesystem;
 
 class GameManager {
     private:
@@ -32,8 +28,6 @@ class GameManager {
         Computer* playerComp;
         Computer* currentComp;
 
-        //Folder* currentFolder;
-
         std::map<std::string, Computer*> computerIDs;
         std::map<std::string, Computer*> computerNetwork;
 
@@ -42,7 +36,6 @@ class GameManager {
         GameManager(Computer* player) {
             playerComp = player;
             currentComp = player;
-            //currentFolder = player->getFileSystem();
 
             std::string ip = player->getIP();
             computerNetwork[ip] = player;
@@ -51,7 +44,6 @@ class GameManager {
         void setPlayer(Computer* player) {
             playerComp = player;
             currentComp = player;
-            //currentFolder = player->getFileSystem();
         }
     protected:
         void buildNode(const json &data, const std::string &playerID);
@@ -101,18 +93,16 @@ class GameManager {
 
         void connect(std::string ip) {
             if (computerNetwork[ip] == nullptr) {
-                std::cout << "Connection refused." << '\n';
+                Printer::print("Connection refused.");
             }
             else {
                 currentComp = computerNetwork[ip];
-                //currentFolder = currentComp->getFileSystem();
                 showConnected();
             }
         }
 
         void setDirectory(Folder* dir) {
             currentComp->setDirectory(dir);
-            //currentFolder = (Folder*)dir;
         }
 
         Computer* getCurrentComputer() {
@@ -132,7 +122,7 @@ class GameManager {
         }
 
         void showConnected() {
-            std::cout << "Connected to " << currentComp->toString() << '\n';
+            Printer::print("Connected to " + currentComp->toString());
         }
 };
 

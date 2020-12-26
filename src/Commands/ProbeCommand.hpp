@@ -7,6 +7,6 @@ class ProbeCommand : public Command {
             if (!hasExactArguments(1, args)) return;
             
             SecuritySuite security = GameManager::getInstance()->getCurrentComputer()->getSecurity();
-            std::cout << security.probe();
+            Printer::print(security.probe());
         }
 };
