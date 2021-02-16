@@ -45,9 +45,13 @@ int main(int argc, char *argv[]) {
         std::string userInput;
         getline(std::cin, userInput);
 
-        if (userInput == "exit") {
+        if (userInput == "exit" || userInput == "quit" || userInput == "q") {
             std::cout << "Exiting Hacknet++...\n";
             return 0;
+        }
+
+        if (userInput.size() == 0) {
+            continue;
         }
 
         std::vector<std::string> args;
