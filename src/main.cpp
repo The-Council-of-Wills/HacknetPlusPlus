@@ -50,7 +50,7 @@ int main(int argc, char *argv[]) {
             return 0;
         }
 
-        if (userInput.size() == 0) {
+        if (userInput.empty()) {
             continue;
         }
 
@@ -59,6 +59,8 @@ int main(int argc, char *argv[]) {
         
         commands->processCommand(args);
     }
+
+    return 0;
 }
 
 void startupText() {
